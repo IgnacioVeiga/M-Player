@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EM-Player</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="menu">
+    <button id="selectDirectory">Select Directory</button>
+  </div>
+  <div id="main">
+    <div id="player">
+      <div id="cover-container">
+        <img id="cover" src="assets/default-cover.jpg" alt="Cover">
+      </div>
+      <div id="metadata">
+        <div id="title">Unknown Title</div>
+        <div id="artist-album">Unknown Artist - Unknown Album</div>
+        <div id="duration">0:00</div>
+      </div>
+      <div id="controls">
+        <button id="prevButton">⏮</button>
+        <button id="playPauseButton">►</button>
+        <button id="nextButton">⏭</button>
+      </div>
+      <input type="range" id="progressBar" value="0" max="100">
+      <audio id="audioPlayer"></audio>
+    </div>
+    <div id="fileList"></div>
+  </div>
+  <script src="renderer.js"></script>
+</body>
+
+</html>

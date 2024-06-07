@@ -1,0 +1,148 @@
+body {
+  background-color: #373b3e;
+  color: #bec8d1;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#menu {
+  background-color: #137a7f;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#menu button {
+  background-color: #e12885;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#menu button:hover {
+  background-color: #bec8d1;
+  color: #373b3e;
+}
+
+#main {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+#player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  padding: 20px;
+  overflow: auto;
+}
+
+#cover-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  background-color: #bec8d1;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+#cover {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#metadata {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#controls button {
+  background-color: #137a7f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 0 10px;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#controls button:hover {
+  background-color: #86cecb;
+}
+
+#progressBar {
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+#fileList {
+  flex: 1;
+  overflow-y: auto;
+  background-color: transparent;
+  padding: 10px;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  color: #bec8d1;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.file-item:hover {
+  background-color: #137a7f;
+  color: #373b3e;
+}
+
+.file-item img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.file-item .info {
+  flex: 1;
+}
+
+.file-item .title {
+  font-size: 16px;
+}
+
+.file-item .artist-album {
+  font-size: 14px;
+  color: #bec8d1;
+}
+
+.file-item .duration {
+  font-size: 14px;
+  color: #bec8d1;
+}
