@@ -1,20 +1,12 @@
-# EM-Player
-EM-Player its a music player developed with ElectronJS.
+# M-Player
+M-Player it's a music player developed with Electron and React.
 
-## Installation
-
-1. Clone the repository
-```bash
-git clone https://github.com/IgnacioVeiga/EM-Player.git
-cd EM-Player
-```
-
-2. Install dependencies
-```bash
-npm install
-```
-
-3. Run the app
+## Starting
+Run in terminal:
 ```bash
 npm start
+```
+and in another terminal:
+```bash
+npm run electron
 ```
