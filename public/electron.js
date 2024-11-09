@@ -28,11 +28,22 @@ ipcMain.handle('select-audio-files', async () => {
         properties: ['openFile', 'multiSelections'],
         filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }],
     });
-    if (canceled) {
-        return null;
-    } else {
-        return filePaths;
-    }
+
+    if (canceled) return null;
+
+    const mm = await import('music-metadata');
+    const filesWithMetadata = await Promise.all(filePaths.map(async (filePath) => {
+        const metadata = await mm.parseFile(filePath);
+        return {
+            title: metadata.common.title || 'Unknown Title',
+            artist: metadata.common.artist || 'Unknown Artist',
+            album: metadata.common.album || 'Unknown Album',
+            duration: metadata.format.duration,
+            path: filePath,
+        };
+    }));
+
+    return filesWithMetadata;
 });
 
 app.on('window-all-closed', () => {

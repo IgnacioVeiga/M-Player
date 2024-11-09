@@ -11,19 +11,8 @@ const App = () => {
 
   const currentFile = files[currentFileIndex];
 
-  // This will be called when files are selected through FileSelector
   const loadFiles = (newFiles) => {
-    const parsedFiles = newFiles.map((filePath) => {
-      // Mock metadata extraction - in reality, you'd extract metadata like title, artist, etc.
-      return {
-        title: 'Unknown Title', // You would extract real metadata here
-        artist: 'Unknown Artist', // Real artist data
-        album: 'Unknown Album', // Real album data
-        duration: 'Unknown Duration', // Real duration from the file
-        path: filePath
-      };
-    });
-    setFiles((prevFiles) => [...prevFiles, ...parsedFiles]);
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
   const handlePrevious = () => {

@@ -2,9 +2,9 @@ import React from 'react';
 
 const FileSelector = ({ onFilesSelected }) => {
     const handleSelectFiles = async () => {
-        const selectedFiles = await window.electronAPI.selectAudioFiles();
+        const selectedFiles = await window.Electron.selectAudioFiles();
         if (selectedFiles) {
-            onFilesSelected(selectedFiles); // Pass the selected files to the parent component
+            onFilesSelected(selectedFiles); // Pass the files with metadata
         }
     };
 
