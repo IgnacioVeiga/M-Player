@@ -7,14 +7,14 @@ const AudioPlayer = ({ file, onPrevious, onNext, onPlayPause, isPlaying }) => {
   const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    if (file && audioRef.current) {
-      const audioElement = audioRef.current;
+    const audioElement = audioRef.current;
 
-      // Must be a valid audio file path
-      audioElement.src = file.path;
+    if (file && audioElement) {
+      audioElement.src = `file://${encodeURI(file.path)}`;
+
       if (isPlaying) {
         audioElement.play().catch((error) => {
-          console.error('Error playing the file: ', error);
+          alert(`Error playing the file\n${error}`);
         });
       } else {
         audioElement.pause();
@@ -29,22 +29,20 @@ const AudioPlayer = ({ file, onPrevious, onNext, onPlayPause, isPlaying }) => {
       };
 
       const handleError = () => {
-        console.error('Error loading the file. Supported source not found.');
+        alert('Error loading the file. Supported source not found.');
       };
 
       audioElement.addEventListener('timeupdate', handleTimeUpdate);
       audioElement.addEventListener('loadedmetadata', handleLoadedMetadata);
-      audioElement.addEventListener('error', handleError); // Listen error event
+      audioElement.addEventListener('error', handleError);
 
-      // Cleanup function
       return () => {
         audioElement.removeEventListener('timeupdate', handleTimeUpdate);
         audioElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
-        audioElement.removeEventListener('error', handleError); // Clean error event
+        audioElement.removeEventListener('error', handleError);
       };
     }
-  }, [file, isPlaying]); // Dependencies
-
+  }, [file, isPlaying]);
 
   const handleProgressChange = (e) => {
     const newTime = (e.target.value / 100) * duration;
