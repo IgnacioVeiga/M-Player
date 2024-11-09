@@ -10,15 +10,18 @@ const AudioPlayer = ({ file, onPrevious, onNext, onPlayPause, isPlaying }) => {
     const audioElement = audioRef.current;
 
     if (file && audioElement) {
-      audioElement.src = `file://${encodeURI(file.path)}`;
-
-      if (isPlaying) {
-        audioElement.play().catch((error) => {
-          alert(`Error playing the file\n${error}`);
-        });
-      } else {
-        audioElement.pause();
-      }
+      window.Electron.loadAudioFile(file.path).then((audioUrl) => {
+        audioElement.src = audioUrl;
+        if (isPlaying) {
+          audioElement.play().catch((error) => {
+            alert(`Error playing the file\n${error}`);
+          });
+        } else {
+          audioElement.pause();
+        }
+      }).catch((error) => {
+        console.error(error);
+      });
 
       const handleTimeUpdate = () => {
         setProgress(audioElement.currentTime);

@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('path');
+const fs = require('fs');
 
 let mainWindow;
 
@@ -11,7 +12,6 @@ function createWindow() {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
             nodeIntegration: false,
-            webSecurity: false,
             devTools: true
         },
     });
@@ -46,6 +46,17 @@ ipcMain.handle('select-audio-files', async () => {
     }));
 
     return filesWithMetadata;
+});
+
+// Handle loading audio files securely
+ipcMain.handle('load-audio-file', async (event, filePath) => {
+    try {
+        const audioData = fs.readFileSync(filePath);
+        return `data:audio/mpeg;base64,${audioData.toString('base64')}`;
+    } catch (error) {
+        console.error('Error loading audio file:', error);
+        throw error;
+    }
 });
 
 app.on('window-all-closed', () => {
