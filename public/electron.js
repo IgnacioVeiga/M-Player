@@ -9,8 +9,8 @@ function createWindow() {
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            nodeIntegration: true,
-            contextIsolation: false,  // To allow the renderer to access Node.js
+            contextIsolation: true,
+            nodeIntegration: false
         },
     });
 
