@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Controls.css';
 
-const Controls = ({ file, onPrevious, onNext, onPlayPause, isPlaying }) => {
+export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlaying }) {
     const audioRef = useRef(null);
     const [progress, setProgress] = useState(0);
     const [duration, setDuration] = useState(0);
@@ -53,6 +53,12 @@ const Controls = ({ file, onPrevious, onNext, onPlayPause, isPlaying }) => {
         setProgress(newTime);
     };
 
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+        return `${minutes}:${seconds}`;
+    }    
+
     return (
         <footer>
             <button onClick={onPrevious}>⏮</button>
@@ -78,11 +84,3 @@ const Controls = ({ file, onPrevious, onNext, onPlayPause, isPlaying }) => {
         </footer>
     );
 }
-
-const formatTime = (time) => {
-    const minutes = Math.floor(time / 60);
-    const seconds = Math.floor(time % 60).toString().padStart(2, '0');
-    return `${minutes}:${seconds}`;
-};
-
-export default Controls;

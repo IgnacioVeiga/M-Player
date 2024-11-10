@@ -1,7 +1,7 @@
 import React from 'react';
 import './FileList.css'
 
-const FileList = ({ files, onFileSelect }) => {
+export default function FileList ({ files, onFileSelect }) {
     return (
         <ul>
             {files.map((file, index) => (
@@ -17,5 +17,3 @@ const FileList = ({ files, onFileSelect }) => {
         </ul>
     );
 };
-
-export default FileList;

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Sidebar.css';
 
-const Sidebar = ({ onFilesSelected }) => {
+export default function Sidebar({ onFilesSelected }) {
     const handleSelectFiles = async () => {
         const selectedFiles = await window.Electron.selectAudioFiles();
         if (selectedFiles) {
@@ -25,5 +25,3 @@ const Sidebar = ({ onFilesSelected }) => {
         </div>
     );
 }
-
-export default Sidebar;

@@ -1,7 +1,7 @@
 import React from 'react';
 import './Navbar.css';
 
-const Navbar = () => {
+export default function Navbar() {
     return (
         <header>
             <input type="text" placeholder="Search music ... " />
@@ -11,5 +11,3 @@ const Navbar = () => {
         </header>
     );
 }
-
-export default Navbar;

@@ -6,7 +6,7 @@ import Artwork from './components/Artwork';
 import Playlist from './components/Playlist';
 import Controls from './components/Controls';
 
-const App = () => {
+export default function App() {
   const [files, setFiles] = useState([]);
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -60,5 +60,3 @@ const App = () => {
     </div>
   );
 }
-
-export default App;
