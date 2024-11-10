@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
-import AudioPlayer from './components/AudioPlayer';
-import FileList from './components/FileList';
-import FileSelector from './components/FileSelector';
+import Sidebar from './components/Sidebar';
+import Navbar from './components/Navbar';
+import Artwork from './components/Artwork';
+import Playlist from './components/Playlist';
+import Controls from './components/Controls';
 
 const App = () => {
   const [files, setFiles] = useState([]);
@@ -37,19 +39,26 @@ const App = () => {
 
   return (
     <div className="app">
-      <div className="player-container">
-        <AudioPlayer
+      <Sidebar onFilesSelected={loadFiles} />
+      <div className="main-content">
+        <Navbar />
+        <div className="art-and-playlist">
+          <Artwork file={currentFile} />
+          <Playlist
+            files={files}
+            onFileSelect={handleFileSelect}
+          />
+        </div>
+        <Controls
           file={currentFile}
           onPrevious={handlePrevious}
           onNext={handleNext}
           onPlayPause={handlePlayPause}
           isPlaying={isPlaying}
         />
-        <FileSelector onFilesSelected={loadFiles} />
       </div>
-      <FileList files={files} onFileSelect={handleFileSelect} />
     </div>
   );
-};
+}
 
 export default App;

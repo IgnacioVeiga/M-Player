@@ -1,0 +1,23 @@
+.artwork {
+    flex: 2 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #121212;
+}
+
+.artwork img {
+    width: 60%;
+    border-radius: 10px;
+}
+
+.artwork .no-image {
+    color: white;
+    font-size: 20px;
+}
+
+.artwork h3,
+.artwork p {
+    margin-top: 10px;
+}

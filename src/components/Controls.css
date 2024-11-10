@@ -1,0 +1,26 @@
+footer {
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #121212;
+    border-top: 1px solid #333;
+}
+
+footer button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+footer .progress {
+    display: flex;
+    align-items: center;
+    width: 50%;
+    gap: 10px;
+}
