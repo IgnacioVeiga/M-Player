@@ -10,17 +10,19 @@ const Sidebar = ({ onFilesSelected }) => {
     };
 
     return (
-        <aside className="sidebar">
+        <div className="sidebar">
             <div className="logo">
                 <h2>M-Player</h2>
             </div>
-            <ul className="sidebar-menu">
-                <li><a href="#home"><span>🏠</span> Home</a></li>
-                <li><a href="#explore"><span>🔍</span> Explore</a></li>
-                <li><a href="#library"><span>📂</span> Library</a></li>
-                <li onClick={handleSelectFiles}><span>📥</span> Add</li>
-            </ul>
-        </aside>
+            <nav>
+                <ul>
+                    <li><span>🏠</span> Principal</li>
+                    <li><span>🔍</span> Explore</li>
+                    <li><span>📂</span> Library</li>
+                    <li onClick={handleSelectFiles}><span>📥</span> Add</li>
+                </ul>
+            </nav>
+        </div>
     );
 }
 
