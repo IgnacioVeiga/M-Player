@@ -57,30 +57,50 @@ export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlay
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60).toString().padStart(2, '0');
         return `${minutes}:${seconds}`;
-    }    
+    }
 
     return (
         <footer>
-            <button onClick={onPrevious}>⏮</button>
-            <button onClick={onPlayPause}>{isPlaying ? '❚❚' : '►'}</button>
-            <button onClick={onNext}>⏭</button>
+            <div className='controls-left'>
+                <button onClick={onPrevious}>
+                    <span className='material-icons'>skip_previous</span>
+                </button>
+                <button onClick={onPlayPause}>
+                    {
+                        isPlaying ?
+                            <span className='material-icons'>pause</span>
+                            :
+                            <span className='material-icons'>play_arrow</span>
+                    }
+                </button>
+                <button onClick={onNext}>
+                    <span className='material-icons'>skip_next</span>
+                </button>
+            </div>
+
             <div className="progress">
                 <span>{formatTime(progress)}</span>
 
-                <input
-                    type="range"
-                    min="0"
-                    max="100"
+                <progress
                     value={(progress / duration) * 100 || 0}
+                    min="0" max="100"
                     onChange={handleProgressChange}
                 />
 
                 <span>{formatTime(duration)}</span>
             </div>
 
-            <button>🔊</button>
-            <button>🔁</button>
-            <button>🔀</button>
+            <div className='controls-right'>
+                <button>
+                    <span className='material-icons-outlined'>volume_up</span>
+                </button>
+                <button>
+                    <span className='material-icons'>repeat</span>
+                </button>
+                <button>
+                    <span className='material-icons'>shuffle</span>
+                </button>
+            </div>
         </footer>
     );
 }

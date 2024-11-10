@@ -1,10 +1,9 @@
 .artwork {
-    flex: 2 1;
+    flex: 2;
     display: flex;
+    background-color: #121212;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    background-color: #121212;
 }
 
 .artwork img {
@@ -13,11 +12,12 @@
 }
 
 .artwork .no-image {
-    color: white;
+    aspect-ratio: 1;
+    width: 480px;
+    background-color: black;
     font-size: 20px;
-}
-
-.artwork h3,
-.artwork p {
-    margin-top: 10px;
+    display: grid;
+    justify-content: center;
+    border-radius: 10px;
+    align-items: center;
 }

@@ -40,23 +40,22 @@ export default function App() {
   return (
     <div className="app">
       <Sidebar onFilesSelected={loadFiles} />
-      <div className="main-content">
-        <Navbar />
-        <div className="art-and-playlist">
-          <Artwork file={currentFile} />
-          <Playlist
-            files={files}
-            onFileSelect={handleFileSelect}
-          />
-        </div>
-        <Controls
-          file={currentFile}
-          onPrevious={handlePrevious}
-          onNext={handleNext}
-          onPlayPause={handlePlayPause}
-          isPlaying={isPlaying}
-        />
-      </div>
+      <Navbar />
+
+      <Artwork file={currentFile} />
+
+      <Playlist
+        files={files}
+        onFileSelect={handleFileSelect}
+      />
+
+      <Controls
+        file={currentFile}
+        onPrevious={handlePrevious}
+        onNext={handleNext}
+        onPlayPause={handlePlayPause}
+        isPlaying={isPlaying}
+      />
     </div>
   );
 }

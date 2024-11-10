@@ -10,18 +10,25 @@ export default function Sidebar({ onFilesSelected }) {
     };
 
     return (
-        <div className="sidebar">
-            <div className="logo">
-                <h2>M-Player</h2>
-            </div>
-            <nav>
-                <ul>
-                    <li><span>🏠</span> Principal</li>
-                    <li><span>🔍</span> Explore</li>
-                    <li><span>📂</span> Library</li>
-                    <li onClick={handleSelectFiles}><span>📥</span> Add</li>
-                </ul>
-            </nav>
-        </div>
+        <nav>
+            <ul>
+                <li>
+                    <span className='material-icons-outlined'>home</span>
+                    Principal
+                </li>
+                <li>
+                    <span className='material-icons-outlined'>explore</span>
+                    Explore
+                </li>
+                <li>
+                    <span className='material-icons-outlined'>library_music</span>
+                    Library
+                </li>
+                <li onClick={handleSelectFiles}>
+                <span className='material-icons-outlined'>add</span>
+                    Add
+                </li>
+            </ul>
+        </nav>
     );
 }

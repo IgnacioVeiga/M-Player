@@ -10,6 +10,10 @@ footer {
     border-top: 1px solid #333;
 }
 
+.controls-left {
+    margin-left: 60px;
+}
+
 footer button {
     background: none;
     border: none;
@@ -21,6 +25,14 @@ footer button {
 footer .progress {
     display: flex;
     align-items: center;
-    width: 50%;
+    justify-content: center;
     gap: 10px;
+}
+
+progress {
+    background-color: #333;
+}
+
+.controls-right {
+    margin-right: 60px;
 }

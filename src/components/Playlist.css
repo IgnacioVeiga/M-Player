@@ -1,7 +1,6 @@
 .playlist {
-    flex: 1 1;
+    flex: 1;
     background-color: #181818;
-    overflow-y: auto;
 }
 
 .playlist-header {

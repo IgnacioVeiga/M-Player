@@ -9,6 +9,12 @@ header {
     border-bottom: 1px solid #333;
 }
 
+.nav-left {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
 header input[type="text"] {
     width: 50%;
     padding: 8px;
@@ -18,8 +24,6 @@ header input[type="text"] {
     color: white;
 }
 
-header .user-profile img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+header span {
+    margin-right: 60px;
 }
