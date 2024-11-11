@@ -1,17 +1,17 @@
 import '../styles/Navbar.css';
 
-export default function Navbar() {
+export default function Navbar({ onMenuClick }) {
     const userIcon = null;
 
     return (
         <header>
             <div className='nav-left'>
-                <span className='material-icons-outlined'>menu</span>
+                <span className='material-icons-outlined' onClick={onMenuClick}>menu</span>
                 M-Player
             </div>
 
             <input type="text" placeholder="Search music ... " />
-            
+
             <div className="user-profile">
                 {
                     userIcon

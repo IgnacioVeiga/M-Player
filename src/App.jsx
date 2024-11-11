@@ -10,6 +10,7 @@ export default function App() {
   const [files, setFiles] = useState([]);
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const currentFile = files[currentFileIndex];
 
@@ -36,11 +37,12 @@ export default function App() {
       setIsPlaying(true);
     }
   };
+  const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
   return (
     <div className="app">
-      <Sidebar onFilesSelected={loadFiles} />
-      <Navbar />
+      <Navbar onMenuClick={toggleSidebar} />
+      <Sidebar onFilesSelected={loadFiles} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className="art-and-playlist">
         <Artwork file={currentFile} />
