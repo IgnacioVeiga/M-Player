@@ -1,13 +1,14 @@
-.art-and-playlist {
+.app {
   display: flex;
-  padding-top: 60px;
+  flex-direction: row;
+  height: 100vh;
 }
 
-.artwork {
-  flex: 2;
-  margin-right: 20px;
+.artwork-container {
+  flex: 0 0 auto;
 }
 
 .playlist {
-  flex: 1;
+  margin-top: 60px;
+  flex: 1 1 auto;
 }

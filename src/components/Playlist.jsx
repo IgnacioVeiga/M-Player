@@ -1,5 +1,5 @@
 import '../styles/Playlist.css';
-import FileList from './FileList'
+import FileList from './FileList';
 
 export default function Playlist({ files, onFileSelect }) {
     return (
@@ -9,7 +9,9 @@ export default function Playlist({ files, onFileSelect }) {
                 <button>LYRICS</button>
                 <button>RELATED</button>
             </div>
-            <FileList files={files} onFileSelect={onFileSelect} />
+            <div className="scrollable-content">
+                <FileList files={files} onFileSelect={onFileSelect} />
+            </div>
         </div>
     );
 }

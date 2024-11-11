@@ -1,5 +1,7 @@
 .playlist {
     flex: 1;
+    display: flex;
+    flex-direction: column;
     background-color: #181818;
 }
 
@@ -19,4 +21,10 @@
 
 .playlist-header button:hover {
     color: white;
+}
+
+/* Agrega esta clase para que FileList ocupe el resto del espacio y permita scroll solo en el contenido de la lista */
+.scrollable-content {
+    flex: 1;
+    overflow-y: auto;
 }

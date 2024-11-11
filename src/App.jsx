@@ -45,10 +45,10 @@ export default function App() {
       <Navbar onMenuClick={toggleSidebar} />
       <Sidebar onFilesSelected={loadFiles} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-      <div className="art-and-playlist">
+      <div className="artwork-container">
         <Artwork file={currentFile} />
-        <Playlist files={files} onFileSelect={handleFileSelect} />
       </div>
+      <Playlist files={files} onFileSelect={handleFileSelect} />
 
       <Controls
         file={currentFile}
