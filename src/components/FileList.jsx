@@ -1,11 +1,12 @@
-import '../styles/FileList.css'
+import '../styles/FileList.css';
+import Artwork from './Artwork';
 
-export default function FileList ({ files, onFileSelect }) {
+export default function FileList({ files, onFileSelect }) {
     return (
-        <ul>
+        <ul className="file-list">
             {files.map((file, index) => (
-                <li key={index} onClick={() => onFileSelect(file)}>
-                    <img src="thumbnail1.png" alt="Thumb" />
+                <li key={index} onClick={() => onFileSelect(file)} className="file-item">
+                    <Artwork file={file} size="thumbnail" />
                     <div className="song-info">
                         <p>{file.title}</p>
                         <span>{file.artist} - {file.album}</span>
@@ -15,4 +16,4 @@ export default function FileList ({ files, onFileSelect }) {
             ))}
         </ul>
     );
-};
+}

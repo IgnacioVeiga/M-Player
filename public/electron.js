@@ -24,6 +24,11 @@ function createWindow() {
 
 app.on('ready', createWindow);
 
+function uint8ArrayToBase64(uint8Array) {
+    const binary = Array.from(uint8Array, byte => String.fromCharCode(byte)).join('');
+    return Buffer.from(binary, 'binary').toString('base64');
+}
+
 // Event to handle file selection
 ipcMain.handle('select-audio-files', async () => {
     const { canceled, filePaths } = await dialog.showOpenDialog({
@@ -40,7 +45,8 @@ ipcMain.handle('select-audio-files', async () => {
 
         if (metadata.common.picture && metadata.common.picture.length > 0) {
             const picture = metadata.common.picture[0];
-            imageBase64 = `data:${picture.format};base64,${picture.data.toString('base64')}`;
+            const base64Image = uint8ArrayToBase64(picture.data);
+            imageBase64 = `data:${picture.format};base64,${base64Image}`;
         }
 
         return {
