@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/ProgressBar.css'
 
 export default function ProgressBar({ progress, duration, onProgressChange }) {

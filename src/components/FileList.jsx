@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/FileList.css'
 
 export default function FileList ({ files, onFileSelect }) {

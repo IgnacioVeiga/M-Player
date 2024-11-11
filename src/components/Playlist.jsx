@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/Playlist.css';
 import FileList from './FileList'
 

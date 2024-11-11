@@ -1,4 +1,3 @@
-import React from 'react';
 import '../styles/Controls.css';
 import ProgressBar from './ProgressBar';
 import useAudioPlayer from '../hooks/useAudioPlayer';

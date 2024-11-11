@@ -1,4 +1,3 @@
-import React from 'react'
 import '../styles/Artwork.css'
 
 export default function Artwork({ file }) {
