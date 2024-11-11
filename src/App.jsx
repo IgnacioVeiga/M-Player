@@ -35,6 +35,7 @@ export default function App() {
     if (index !== -1) {
       setCurrentFileIndex(index);
       setIsPlaying(true);
+      console.log(file);
     }
   };
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev);

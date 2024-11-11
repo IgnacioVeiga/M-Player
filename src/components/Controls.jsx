@@ -30,6 +30,11 @@ export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlay
                     <span className='material-icons'>skip_next</span>
                 </button>
             </div>
+            
+            <div className="metadata">
+                <h3>{file?.title || 'Unknown Title'}</h3>
+                <p>{file?.artist || 'Unknown Artist'}</p>
+            </div>
 
             <ProgressBar
                 progress={progress}

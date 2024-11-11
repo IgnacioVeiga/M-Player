@@ -36,12 +36,20 @@ ipcMain.handle('select-audio-files', async () => {
     const mm = await import('music-metadata');
     const filesWithMetadata = await Promise.all(filePaths.map(async (filePath) => {
         const metadata = await mm.parseFile(filePath);
+        let imageBase64 = null;
+
+        if (metadata.common.picture && metadata.common.picture.length > 0) {
+            const picture = metadata.common.picture[0];
+            imageBase64 = `data:${picture.format};base64,${picture.data.toString('base64')}`;
+        }
+
         return {
             title: metadata.common.title || 'Unknown Title',
             artist: metadata.common.artist || 'Unknown Artist',
             album: metadata.common.album || 'Unknown Album',
             duration: metadata.format.duration,
             path: filePath,
+            image: imageBase64,
         };
     }));
 

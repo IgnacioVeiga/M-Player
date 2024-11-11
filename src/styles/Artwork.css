@@ -1,23 +1,26 @@
 .artwork {
-    flex: 2;
     display: flex;
-    background-color: #121212;
-    flex-direction: column;
+    justify-content: center;
     align-items: center;
+    background-color: #121212;
+    height: calc(100vh - 160px);
+    margin-top: 60px;
 }
 
 .artwork img {
-    width: 60%;
+    width: 80%;
+    max-width: 600px;
     border-radius: 10px;
 }
 
 .artwork .no-image {
     aspect-ratio: 1;
-    width: 480px;
+    width: 80%;
+    max-width: 600px;
     background-color: black;
-    font-size: 20px;
+    color: white;
     display: grid;
-    justify-content: center;
+    place-items: center;
+    font-size: 24px;
     border-radius: 10px;
-    align-items: center;
 }
