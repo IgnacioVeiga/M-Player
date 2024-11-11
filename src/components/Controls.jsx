@@ -13,9 +13,7 @@ export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlay
             window.Electron.loadAudioFile(file.path).then((audioUrl) => {
                 audioElement.src = audioUrl;
                 if (isPlaying) {
-                    audioElement.play().catch((error) => {
-                        alert(`Error playing the file\n${error}`);
-                    });
+                    audioElement.play();
                 } else {
                     audioElement.pause();
                 }
@@ -57,10 +55,11 @@ export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlay
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60).toString().padStart(2, '0');
         return `${minutes}:${seconds}`;
-    }
+    };
 
     return (
         <footer>
+            <audio ref={audioRef} hidden />
             <div className='controls-left'>
                 <button onClick={onPrevious}>
                     <span className='material-icons'>skip_previous</span>

@@ -36,3 +36,7 @@ progress {
 .controls-right {
     margin-right: 60px;
 }
+
+footer button:active {
+    transform: scale(0.95);
+}
