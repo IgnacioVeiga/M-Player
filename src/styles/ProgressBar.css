@@ -1,0 +1,10 @@
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+progress {
+    background-color: #333;
+}

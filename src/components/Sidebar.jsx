@@ -1,5 +1,5 @@
 import React from 'react';
-import './Sidebar.css';
+import '../styles/Sidebar.css';
 
 export default function Sidebar({ onFilesSelected }) {
     const handleSelectFiles = async () => {

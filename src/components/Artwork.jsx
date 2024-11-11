@@ -1,5 +1,5 @@
 import React from 'react'
-import './Artwork.css'
+import '../styles/Artwork.css'
 
 export default function Artwork({ file }) {
     return (

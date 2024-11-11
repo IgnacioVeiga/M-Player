@@ -1,5 +1,13 @@
 .art-and-playlist {
   display: flex;
-  flex: 3;
   padding-top: 60px;
+}
+
+.artwork {
+  flex: 2;
+  margin-right: 20px;
+}
+
+.playlist {
+  flex: 1;
 }

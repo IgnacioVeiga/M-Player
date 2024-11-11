@@ -1,5 +1,5 @@
 import React from 'react';
-import './FileList.css'
+import '../styles/FileList.css'
 
 export default function FileList ({ files, onFileSelect }) {
     return (

@@ -1,0 +1,23 @@
+nav {
+    position: fixed;
+    height: 100%;
+    width: 15%;
+    background-color: #202020;
+    padding-top: 40px;
+}
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    padding: 15px 0px;
+    cursor: pointer;
+    gap: 10px;
+    color: #b3b3b3;
+}
+
+nav ul li:hover {
+    background-color: #333;
+    color: white;
+}

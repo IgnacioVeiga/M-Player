@@ -1,0 +1,30 @@
+footer {
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #121212;
+    border-top: 1px solid #333;
+}
+
+.controls-left {
+    margin-left: 60px;
+}
+
+footer button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+.controls-right {
+    margin-right: 60px;
+}
+
+footer button:active {
+    transform: scale(0.95);
+}

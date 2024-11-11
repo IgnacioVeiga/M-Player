@@ -42,12 +42,10 @@ export default function App() {
       <Sidebar onFilesSelected={loadFiles} />
       <Navbar />
 
-      <Artwork file={currentFile} />
-
-      <Playlist
-        files={files}
-        onFileSelect={handleFileSelect}
-      />
+      <div className="art-and-playlist">
+        <Artwork file={currentFile} />
+        <Playlist files={files} onFileSelect={handleFileSelect} />
+      </div>
 
       <Controls
         file={currentFile}

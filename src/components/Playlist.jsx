@@ -1,5 +1,5 @@
 import React from 'react';
-import './Playlist.css';
+import '../styles/Playlist.css';
 import FileList from './FileList'
 
 export default function Playlist({ files, onFileSelect }) {
