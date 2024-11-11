@@ -13,6 +13,31 @@
     left: 0;
 }
 
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    color: #ddd;
+    border-bottom: 1px solid #333;
+    cursor: pointer;
+}
+
+.sidebar ul li:hover {
+    background-color: #333;
+}
+
+.sidebar ul li .material-icons-outlined {
+    margin-right: 10px;
+    font-size: 20px;
+    color: #ccc;
+}
+
 .overlay {
     display: none;
     position: fixed;
