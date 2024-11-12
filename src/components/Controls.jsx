@@ -1,5 +1,6 @@
 import '../styles/Controls.css';
 import ProgressBar from './ProgressBar';
+import Artwork from './Artwork';
 import useAudioPlayer from '../hooks/useAudioPlayer';
 
 export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlaying }) {
@@ -9,6 +10,12 @@ export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlay
         const newTime = (e.target.value / 100) * duration;
         audioRef.current.currentTime = newTime;
         setProgress(newTime);
+    };
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60).toString().padStart(2, '0');
+        return `${minutes}:${seconds}`;
     };
 
     return (
@@ -29,11 +36,18 @@ export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlay
                 <button onClick={onNext}>
                     <span className='material-icons'>skip_next</span>
                 </button>
+
+                <span className='time'>{formatTime(progress)} / {formatTime(duration)}</span>
             </div>
-            
+
             <div className="metadata">
-                <h3>{file?.title || 'Unknown Title'}</h3>
-                <p>{file?.artist || 'Unknown Artist'}</p>
+                <Artwork file={file} size="thumbnail" />
+                <div className='metadata-text'>
+                    <span>{file?.title || 'Unknown Title'}</span>
+                    <span className='sub-title'>
+                        {file?.artist || 'Unknown Artist'} - {file?.album || 'Unknown Album'}
+                    </span>
+                </div>
             </div>
 
             <ProgressBar

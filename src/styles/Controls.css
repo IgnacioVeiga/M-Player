@@ -5,13 +5,18 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
     background-color: #121212;
     border-top: 1px solid #333;
 }
 
 .controls-left {
-    margin-left: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.time {
+    font-size: smaller;
+    color: gray;
 }
 
 footer button {
@@ -23,13 +28,29 @@ footer button {
 }
 
 .metadata {
-    text-align: center;
-    color: white;
-    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.metadata-text {
+    display: flex;
+    flex-direction: column;
+    margin-block: 16px;
+}
+
+.sub-title {
+    color: gray;
+}
+
+.sub-title:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .controls-right {
-    margin-right: 60px;
+    color: gray;
 }
 
 footer button:active {
