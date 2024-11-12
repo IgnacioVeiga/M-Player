@@ -1,10 +1,34 @@
-.progress-bar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+.progress-container {
+    position: relative;
+    width: 100%;
+    height: 6px;
+    background-color: #333;
+    cursor: pointer;
 }
 
-progress {
-    background-color: #333;
+.progress-container:hover {
+    height: 10px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: red;
+}
+
+.progress-circle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: red;
+    pointer-events: none;
+}
+
+.progress-container:hover
+.progress-circle {
+    scale: 2;
+    position: absolute;
+    top: 100%;
 }

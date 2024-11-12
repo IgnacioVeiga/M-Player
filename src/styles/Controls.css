@@ -1,12 +1,14 @@
-footer {
+.controls {
     position: fixed;
     bottom: 0%;
     width: 100%;
+}
+
+footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #121212;
-    border-top: 1px solid #333;
 }
 
 .controls-left {
