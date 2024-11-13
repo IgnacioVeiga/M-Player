@@ -27,3 +27,11 @@ header input[type="text"] {
 header span {
     margin-right: 60px;
 }
+
+.menu-btn {
+    cursor: pointer;
+}
+
+.menu-btn:active {
+    transform: scale(0.95);
+}

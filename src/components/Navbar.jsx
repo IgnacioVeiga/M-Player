@@ -6,7 +6,7 @@ export default function Navbar({ onMenuClick }) {
     return (
         <header>
             <div className='nav-left'>
-                <span className='material-icons-outlined' onClick={onMenuClick}>menu</span>
+                <span className='material-icons-outlined menu-btn' onClick={onMenuClick}>menu</span>
                 M-Player
             </div>
 
