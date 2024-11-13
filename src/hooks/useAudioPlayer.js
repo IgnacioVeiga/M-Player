@@ -10,7 +10,7 @@ export default function useAudioPlayer(file, isPlaying) {
         if (file && audioElement) {
             window.Electron.loadAudioFile(file.path).then((audioUrl) => {
                 audioElement.src = audioUrl;
-                isPlaying ? audioElement.play() : audioElement.pause();
+                audioElement.play();
             });
 
             const updateProgress = () => setProgress(audioElement.currentTime);
@@ -24,7 +24,14 @@ export default function useAudioPlayer(file, isPlaying) {
                 audioElement.removeEventListener('loadedmetadata', updateDuration);
             };
         }
-    }, [file, isPlaying]);
+    }, [file]); 
+
+    useEffect(() => {
+        const audioElement = audioRef.current;
+        if (audioElement) {
+            isPlaying ? audioElement.play() : audioElement.pause();
+        }
+    }, [isPlaying]);
 
     return { audioRef, progress, duration, setProgress };
 }
