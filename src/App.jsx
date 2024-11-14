@@ -35,7 +35,6 @@ export default function App() {
     if (index !== -1) {
       setCurrentFileIndex(index);
       setIsPlaying(true);
-      console.log(file);
     }
   };
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
@@ -48,7 +47,7 @@ export default function App() {
       <div className="artwork-container">
         <Artwork file={currentFile} />
       </div>
-      <Playlist files={files} onFileSelect={handleFileSelect} />
+      <Playlist files={files} file={currentFile} onFileSelect={handleFileSelect} />
 
       <Controls
         file={currentFile}

@@ -25,10 +25,12 @@
     border-radius: 50%;
     background-color: red;
     pointer-events: none;
+    display: none;
 }
 
 .progress-container:hover
 .progress-circle {
+    display: block;
     scale: 2;
     position: absolute;
     top: 100%;

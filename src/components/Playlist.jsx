@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import FileList from './FileList';
 import '../styles/Playlist.css';
+import Lyrics from './Lyrics';
 
-export default function Playlist({ files, onFileSelect }) {
+export default function Playlist({ files, file, onFileSelect }) {
     const [activeTab, setActiveTab] = useState('UP_NEXT');
 
     const renderContent = () => {
         switch (activeTab) {
             case 'LYRICS':
-                return <div>Lyrics content here...</div>;
+                return <Lyrics file={file} />;
             case 'RELATED':
                 return <div>Related content here...</div>;
             default:

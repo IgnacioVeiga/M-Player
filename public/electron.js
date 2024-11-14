@@ -54,6 +54,7 @@ ipcMain.handle('select-audio-files', async () => {
             artist: metadata.common.artist || 'Unknown Artist',
             album: metadata.common.album || 'Unknown Album',
             duration: metadata.format.duration,
+            lyrics: metadata.common.lyrics,
             path: filePath,
             image: imageBase64,
         };
