@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
@@ -11,6 +11,10 @@ export default function App() {
   const [currentFileIndex, setCurrentFileIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const audioRef = useRef(new Audio());
 
   const currentFile = files[currentFileIndex];
 
@@ -27,6 +31,12 @@ export default function App() {
   };
 
   const handlePlayPause = () => {
+    const audio = audioRef.current;
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
     setIsPlaying(!isPlaying);
   };
 
@@ -34,10 +44,52 @@ export default function App() {
     const index = files.findIndex((f) => f.path === file.path);
     if (index !== -1) {
       setCurrentFileIndex(index);
-      setIsPlaying(true);
     }
   };
+
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
+
+  const handleProgressChange = (newTime) => {
+    audioRef.current.currentTime = newTime;
+    setProgress(newTime);
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    const updateProgress = () => {
+      setProgress(audio.currentTime);
+    };
+
+    const updateDuration = () => {
+      setDuration(audio.duration || 0);
+    };
+
+    const handleEnded = () => {
+      handleNext();
+    };
+
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', updateDuration);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('timeupdate', updateProgress);
+      audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('ended', handleEnded);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (currentFile) {
+      audio.src = currentFile.path;
+      audio.play();
+      setIsPlaying(true);
+    }
+  }, [currentFile]);
 
   return (
     <div className="app">
@@ -55,6 +107,10 @@ export default function App() {
         onNext={handleNext}
         onPlayPause={handlePlayPause}
         isPlaying={isPlaying}
+        audioRef={audioRef}
+        progress={progress}
+        duration={duration}
+        onProgressChange={handleProgressChange}
       />
     </div>
   );

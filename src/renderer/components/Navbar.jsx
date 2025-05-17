@@ -22,5 +22,12 @@ export default function Navbar({ onMenuClick }) {
                 }
             </div>
         </header>
+
+        //         <nav className='navbar'>
+        //             <button onClick={onMenuClick}>
+        //                 <span className='material-icons'>menu</span>
+        //             </button>
+        //             <h1>Music Player</h1>
+        //         </nav>
     );
 }
