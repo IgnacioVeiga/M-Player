@@ -6,7 +6,7 @@ export default defineConfig({
     root: './src', // Vite arranca desde src/
     plugins: [react()],
     build: {
-        outDir: '../dist/renderer',
+        outDir: path.resolve(__dirname, 'dist/renderer'),
         emptyOutDir: true,
     },
     resolve: {
