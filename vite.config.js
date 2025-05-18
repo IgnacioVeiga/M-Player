@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
-    root: './src', // Vite arranca desde src/
+    root: './src',
+    base: './',
     plugins: [react()],
     build: {
         outDir: path.resolve(__dirname, 'dist/renderer'),

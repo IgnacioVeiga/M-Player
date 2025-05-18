@@ -2,10 +2,8 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const { registerFileHandlers } = require('./fileHandlers');
 
-let mainWindow;
-
 function createWindow() {
-    mainWindow = new BrowserWindow({
+    const mainWindow = new BrowserWindow({
         width: 860,
         height: 640,
         // icon: path.join(__dirname, 'assets', 'icon.png'),
@@ -17,11 +15,15 @@ function createWindow() {
         },
     });
 
-    if (process.env.NODE_ENV === 'development') {
+    const isDev = process.env.NODE_ENV === 'development';
+
+    if (isDev) {
         mainWindow.loadURL('http://localhost:5173');
-        mainWindow.webContents.openDevTools(); // opcional
+        mainWindow.webContents.openDevTools();
     } else {
-        mainWindow.loadFile(path.join(__dirname, '../../dist/renderer/index.html'));
+        const indexPath = path.join(app.getAppPath(), 'dist/renderer/index.html');
+        console.log('Cargando desde:', indexPath);
+        mainWindow.loadFile(indexPath);
     }
 }
 
