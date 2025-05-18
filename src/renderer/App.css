@@ -1,13 +1,11 @@
 .app {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
+  display: grid;
+  min-height: 100dvh;
+  grid-template-rows: auto 1fr auto;
 }
 
-.artwork-container {
-  flex: 1 0 auto;
-}
-
-.playlist {
-  flex: 1 1 auto;
+.main-container {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr;
+  gap: 16px;
 }

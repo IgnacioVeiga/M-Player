@@ -13,7 +13,7 @@ export default function Playlist({ files, file, onFileSelect }) {
             case 'RELATED':
                 return <div>Related content here...</div>;
             default:
-                return <FileList files={files} onFileSelect={onFileSelect} />;
+                return <FileList files={files} file={file} onFileSelect={onFileSelect} />;
         }
     };
 

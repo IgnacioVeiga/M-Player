@@ -17,15 +17,14 @@
 }
 
 .file-item.active {
-    background-color: #1db95433;
-    color: white;
-    font-weight: bold;
+    background-color: #2b2b2b;
+    color: #fff;
+    font-weight: 500;
+    border-left: 3px solid #ff3d00;
 }
 
 .file-item:hover {
-    background-color: #2a2a2a;
-    transform: scale(1.01);
-    transition: 0.2s;
+    background-color: #333;
 }
 
 .sub-info {

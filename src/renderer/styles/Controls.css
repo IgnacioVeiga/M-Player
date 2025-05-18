@@ -9,8 +9,12 @@
     align-items: center;
 }
 
-.controls-right {
+.controls-right button {
     color: gray;
+}
+
+.controls-right button:hover {
+    color: white;
 }
 
 .time {
@@ -20,8 +24,6 @@
 
 .metadata {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
 }
 
@@ -52,7 +54,7 @@ footer button {
     background: none;
     border: none;
     color: white;
-    font-size: 24px; /* Que coincida con el espacio disponible */
+    font-size: 24px;
     cursor: pointer;
 }
 

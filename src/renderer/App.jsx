@@ -8,7 +8,7 @@ import Controls from './components/Controls';
 
 export default function App() {
   const [files, setFiles] = useState([]);
-  const [currentFileIndex, setCurrentFileIndex] = useState(0);
+  const [currentFileIndex, setCurrentFileIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -105,10 +105,10 @@ export default function App() {
       <Navbar onMenuClick={toggleSidebar} />
       <Sidebar onFilesSelected={loadFiles} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-      <div className="artwork-container">
+      <div className="main-container">
         <Artwork file={currentFile} />
+        <Playlist files={files} file={currentFile} onFileSelect={handleFileSelect} />
       </div>
-      <Playlist files={files} file={currentFile} onFileSelect={handleFileSelect} />
 
       <Controls
         file={currentFile}
