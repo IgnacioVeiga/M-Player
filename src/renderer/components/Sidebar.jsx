@@ -22,24 +22,3 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }) {
         </>
     );
 }
-
-// export default function Sidebar({ onFilesSelected, isOpen, toggleSidebar }) {
-//     const handleFileChange = (e) => {
-//         const selectedFiles = Array.from(e.target.files).map(file => ({
-//             path: URL.createObjectURL(file),
-//             name: file.name,
-//             title: file.name.split('.').slice(0, -1).join('.'),
-//         }));
-//         onFilesSelected(selectedFiles);
-//         toggleSidebar();
-//     };
-
-//     return (
-//         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-//             <label className="file-input-label">
-//                 Select Songs
-//                 <input type="file" accept="audio/*" multiple onChange={handleFileChange} hidden />
-//             </label>
-//         </div>
-//     );
-// }

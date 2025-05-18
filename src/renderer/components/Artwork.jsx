@@ -11,16 +11,3 @@ export default function Artwork({ file, size = 'large' }) {
         </div>
     );
 }
-// export default function Artwork({ file, size }) {
-//     const className = size === 'thumbnail' ? 'artwork-thumbnail' : 'artwork-full';
-
-//     return (
-//         <div className={className}>
-//             {
-//                 file
-//                     ? <img src="./assets/placeholder.jpg" alt="Artwork" />
-//                     : <div className="placeholder"></div>
-//             }
-//         </div>
-//     );
-// }
