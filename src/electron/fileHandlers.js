@@ -1,7 +1,7 @@
 const { ipcMain, dialog } = require('electron');
 const fs = require('fs');
-const mm = require('music-metadata');
-const uint8ArrayToBase64 = require('./utils.js')
+const { parseBuffer } = require('music-metadata');
+const uint8ArrayToBase64 = require('./utils.js');
 
 function registerFileHandlers() {
     ipcMain.handle('select-audio-files', async () => {
@@ -13,7 +13,9 @@ function registerFileHandlers() {
         if (canceled) return null;
 
         const filesWithMetadata = await Promise.all(filePaths.map(async (filePath) => {
-            const metadata = await mm.parseFile(filePath);
+            const fileBuffer = fs.readFileSync(filePath);
+            const metadata = await parseBuffer(fileBuffer);
+
             let imageBase64 = null;
 
             if (metadata.common.picture?.length) {
