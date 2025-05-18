@@ -1,24 +1,17 @@
 # M-Player
-M-Player it's a music player developed with Electron and React.
+A music player developed with Electron, React and Vite.
 
-## Prepare
-Install electron globally
+## Install dependencies
 ```bash
-npm i -g electron
-```
-
-Install node_modules
-```bash
-npm i
+npm install
 ```
 
 ## Start
-Run react server
 ```bash
-npm start
+npm run start
 ```
 
-Start electron app
+## Build
 ```bash
-npm run electron
+npm run dist
 ```
