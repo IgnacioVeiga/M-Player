@@ -12,6 +12,8 @@
   },
   "build": {
     "appId": "com.ignacioveiga.mplayer",
+    "productName": "M-Player",
+    "icon": "src/assets/icon",
     "directories": {
       "output": "release",
       "buildResources": "assets"
@@ -20,7 +22,30 @@
       "dist/**/*",
       "src/electron/**/*"
     ],
-    "asar": true
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "AudioVideo"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    }
   },
   "dependencies": {
     "material-icons": "^1.13.12",
