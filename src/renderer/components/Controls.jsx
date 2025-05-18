@@ -1,20 +1,8 @@
 import '../styles/Controls.css';
 import ProgressBar from './ProgressBar';
 import Artwork from './Artwork';
-import useAudioPlayer from '../hooks/useAudioPlayer';
 
-export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlaying }) {
-    const { audioRef, progress, duration, setProgress } = useAudioPlayer(file, isPlaying);
-
-    const handleProgressChange = (e) => {
-        if (audioRef.current && duration && isFinite(duration)) {
-            const newTime = (e.target.value / 100) * duration;
-            if (!isNaN(newTime)) {
-                audioRef.current.currentTime = newTime;
-                setProgress(newTime);
-            }
-        }
-    };
+export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlaying, audioRef, progress, duration, onProgressChange }) {
 
     const formatTime = (time) => {
         const minutes = Math.floor(time / 60);
@@ -27,7 +15,7 @@ export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlay
             <ProgressBar
                 progress={progress}
                 duration={duration}
-                onProgressChange={handleProgressChange}
+                onProgressChange={onProgressChange}
             />
             <audio ref={audioRef} hidden />
 
@@ -38,10 +26,9 @@ export default function Controls({ file, onPrevious, onNext, onPlayPause, isPlay
                     </button>
                     <button onClick={onPlayPause}>
                         {
-                            isPlaying ?
-                                <span className='material-icons'>pause</span>
-                                :
-                                <span className='material-icons'>play_arrow</span>
+                            isPlaying
+                                ? <span className='material-icons'>pause</span>
+                                : <span className='material-icons'>play_arrow</span>
                         }
                     </button>
                     <button onClick={onNext}>

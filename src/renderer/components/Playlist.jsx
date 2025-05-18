@@ -20,9 +20,20 @@ export default function Playlist({ files, file, onFileSelect }) {
     return (
         <div className="playlist">
             <div className="playlist-header">
-                <button onClick={() => setActiveTab('UP_NEXT')}>UP NEXT</button>
-                <button onClick={() => setActiveTab('LYRICS')}>LYRICS</button>
-                <button onClick={() => setActiveTab('RELATED')}>RELATED</button>
+                <button onClick={() => setActiveTab('UP_NEXT')}
+                    className={activeTab === 'UP_NEXT' ? 'active' : ''}>
+                    UP NEXT
+                </button>
+
+                <button onClick={() => setActiveTab('LYRICS')}
+                    className={activeTab === 'LYRICS' ? 'active' : ''}>
+                    LYRICS
+                </button>
+
+                <button onClick={() => setActiveTab('RELATED')}
+                    className={activeTab === 'RELATED' ? 'active' : ''}>
+                    RELATED
+                </button>
             </div>
             <div className="scrollable-content">
                 {renderContent()}

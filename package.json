@@ -1,44 +1,67 @@
 {
   "name": "m-player",
-  "version": "0.4.0",
+  "author": "Ignacio Veiga <ignacioveiga@example.com>",
+  "description": "Music Player made with React & Electron",
+  "version": "0.9.0",
   "private": true,
+  "main": "src/electron/electron.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "electron": "cross-env NODE_ENV=development electron .",
+    "start": "concurrently \"npm run dev\" \"npm run electron\"",
+    "dist": "npm run build && electron-builder"
+  },
+  "build": {
+    "appId": "com.ignacioveiga.mplayer",
+    "productName": "M-Player",
+    "icon": "src/assets/icon",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "dist/**/*",
+      "src/electron/**/*"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "AudioVideo"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    }
+  },
   "dependencies": {
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.0.1",
-    "@testing-library/user-event": "^14.5.2",
     "material-icons": "^1.13.12",
+    "mime-types": "^3.0.1",
     "music-metadata": "^10.5.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^4.2.4"
-  },
-  "main": "public/electron.js",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "electron": "electron .",
-    "electron-build": "npm run build && electron ."
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "electron": "^33.2.0"
+    "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "^33.2.0",
+    "electron-builder": "^26.0.12",
+    "vite": "^6.3.5"
   }
 }

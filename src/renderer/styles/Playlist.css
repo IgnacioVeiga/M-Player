@@ -21,12 +21,9 @@
     color: white;
 }
 
-.scrollable-content {
-    overflow-y: auto;
-}
-
-.scrollable-content {
-    overflow-y: auto;
+.playlist-header button.active {
+    color: white;
+    border-bottom: 2px solid white;
 }
 
 .scrollable-content {
