@@ -18,7 +18,7 @@
 }
 
 .artwork.large img {
-    max-width: 90%;
+    max-width: 80vw;
     max-height: 90%;
     border-radius: 10px;
 }

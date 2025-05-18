@@ -2,14 +2,17 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    overflow-y: auto;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 .file-item {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 10px 16px;
     border-bottom: 1px solid #333;
+    transition: background-color 0.2s;
     cursor: pointer;
 }
 
@@ -20,11 +23,15 @@
 }
 
 .file-item:hover {
-    background-color: #222;
+    background-color: #2a2a2a;
+    transform: scale(1.01);
+    transition: 0.2s;
 }
 
 .sub-info {
+    color: #aaa;
     font-size: 12px;
-    color: gray;
-    margin-left: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
