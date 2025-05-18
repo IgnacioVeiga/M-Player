@@ -17,12 +17,10 @@ function createWindow() {
         },
     });
 
-    // Si está en desarrollo, cargar localhost:3000
     if (process.env.NODE_ENV === 'development') {
         mainWindow.loadURL('http://localhost:5173');
         mainWindow.webContents.openDevTools(); // opcional
     } else {
-        // Si no, cargar el index.html empaquetado
         mainWindow.loadFile(path.join(__dirname, '../../dist/renderer/index.html'));
     }
 }
