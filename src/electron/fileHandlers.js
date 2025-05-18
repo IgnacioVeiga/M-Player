@@ -1,6 +1,7 @@
 const { ipcMain, dialog } = require('electron');
 const fs = require('fs');
 const mm = require('music-metadata');
+const mime = require('mime-types');
 const { uint8ArrayToBase64 } = require('./utils.js');
 
 function registerFileHandlers() {
@@ -43,7 +44,8 @@ function registerFileHandlers() {
     ipcMain.handle('load-audio-file', async (_, filePath) => {
         try {
             const audioData = fs.readFileSync(filePath);
-            return `data:audio/mpeg;base64,${audioData.toString('base64')}`;
+            const mimeType = mime.lookup(filePath) || 'audio/mpeg';
+            return `data:${mimeType};base64,${audioData.toString('base64')}`;
         } catch (error) {
             console.error('Error loading audio file:', error);
             throw error;

@@ -84,11 +84,20 @@ export default function App() {
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (currentFile) {
-      audio.src = currentFile.path;
-      audio.play();
-      setIsPlaying(true);
-    }
+    const loadAndPlayAudio = async () => {
+      if (currentFile) {
+        try {
+          const audioUrl = await window.Electron.loadAudioFile(currentFile.path);
+          audio.src = audioUrl;
+          await audio.play();
+          setIsPlaying(true);
+        } catch (err) {
+          console.error('Error loading audio:', err);
+        }
+      }
+    };
+
+    loadAndPlayAudio();
   }, [currentFile]);
 
   return (
