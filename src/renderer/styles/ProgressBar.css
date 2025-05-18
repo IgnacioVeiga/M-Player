@@ -1,4 +1,4 @@
-.progress-container {
+/* .progress-container {
     position: relative;
     width: 100%;
     height: 6px;
@@ -34,4 +34,49 @@
     scale: 2;
     position: absolute;
     top: 100%;
+} */
+
+.progress-bar input[type="range"] {
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right,
+            #ff0000 0%,
+            #ff0000 calc(var(--progress, 0%) + 0%),
+            #444 calc(var(--progress, 0%) + 0%),
+            #444 100%);
+    border-radius: 2px;
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.progress-bar input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff0000;
+    border: none;
+    margin-top: -4px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.progress-bar input[type="range"]:hover::-webkit-slider-thumb {
+    opacity: 1;
+}
+
+.progress-bar input[type="range"]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ff0000;
+    border: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.progress-bar input[type="range"]:hover::-moz-range-thumb {
+    opacity: 1;
 }

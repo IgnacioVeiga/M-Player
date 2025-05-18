@@ -53,6 +53,7 @@ export default function ProgressBar({ progress, duration, onProgressChange }) {
                 step="0.01"
                 value={progress}
                 onChange={handleChange}
+                style={{ '--progress': `${(progress / duration) * 100}%` }}
             />
         </div>
     );

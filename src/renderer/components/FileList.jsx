@@ -28,6 +28,7 @@ export default function FileList({ files, file, onFileSelect }) {
                     onClick={() => onFileSelect(f)}
                 >
                     {f.title || f.name}
+                    <span className="sub-info">{f.artist || 'Unknown Artist'}</span>
                 </li>
             ))}
         </ul>
