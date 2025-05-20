@@ -50,6 +50,7 @@
     }
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.7",
     "material-icons": "^1.13.12",
     "mime-types": "^3.0.1",
     "music-metadata": "^10.5.1",
@@ -62,6 +63,7 @@
     "cross-env": "^7.0.3",
     "electron": "^33.2.0",
     "electron-builder": "^26.0.12",
+    "tailwindcss": "^4.1.7",
     "vite": "^6.3.5"
   }
 }
