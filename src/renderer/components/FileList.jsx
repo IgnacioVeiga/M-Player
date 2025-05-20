@@ -1,24 +1,34 @@
-import '../styles/FileList.css';
-import Artwork from './Artwork';
+import Artwork from "./Artwork";
 
 export default function FileList({ files, file, onFileSelect }) {
-    return (
-        <ul className='file-list'>
-            {files.map((f, index) => (
-                <li
-                    key={index}
-                    className={`file-item ${file?.path === f.path ? 'active' : ''}`}
-                    onClick={() => onFileSelect(f)}
-                >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <Artwork file={f} size="thumbnail" />
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <span>{f.title || f.name}</span>
-                            <span className="sub-info">{f.artist || 'Unknown Artist'}</span>
-                        </div>
-                    </div>
-                </li>
-            ))}
-        </ul>
-    );
+	return (
+		<ul className="list-none p-0 m-0 overflow-y-auto overflow-x-hidden">
+			{files.map((f, index) => (
+				<li
+					key={index}
+					onClick={() => onFileSelect(f)}
+					className={`flex justify-between items-center px-4 py-2 border-b border-neutral-800 cursor-pointer transition-colors
+            ${
+							file?.path === f.path
+								? "bg-neutral-800 font-medium border-l-4 border-primary"
+								: ""
+						}
+            hover:bg-neutral-700`}
+				>
+					<div className="flex items-center gap-3">
+						<Artwork
+							file={f}
+							size="thumbnail"
+						/>
+						<div className="flex flex-col">
+							<span>{f.title || f.name}</span>
+							<span className="text-xs text-neutral-400 truncate">
+								{f.artist || "Unknown Artist"}
+							</span>
+						</div>
+					</div>
+				</li>
+			))}
+		</ul>
+	);
 }

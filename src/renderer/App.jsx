@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import './App.css';
 import Sidebar from './components/Sidebar';
 import Navbar from './components/Navbar';
 import Artwork from './components/Artwork';
@@ -101,11 +100,11 @@ export default function App() {
   }, [currentFile]);
 
   return (
-    <div className="app">
+  <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
       <Navbar onMenuClick={toggleSidebar} />
       <Sidebar onFilesSelected={loadFiles} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-      <div className="main-container">
+    <div className="grid grid-cols-[2fr_1.5fr] gap-4">
         <Artwork file={currentFile} />
         <Playlist files={files} file={currentFile} onFileSelect={handleFileSelect} />
       </div>
