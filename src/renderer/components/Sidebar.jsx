@@ -13,16 +13,11 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }) {
 		{ icon: "add", label: "Add", onClick: handleSelectFiles },
 	];
 
-	const bgColor = "#202020";
-	const borderColor = "#333";
-	const textColor = "#bbb";
-	const iconColor = "#ccc";
-	const hoverBg = "#333";
-
 	return (
 		<>
+			{/* Sidebar */}
 			<div
-				className={`fixed top-0 h-full w-[250px] bg-[${bgColor}] transform transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] z-10 ${
+				className={`fixed top-0 h-full w-[250px] bg-[#202020] transform transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] z-10 ${
 					isOpen ? "translate-x-0" : "-translate-x-full"
 				}`}
 			>
@@ -30,13 +25,13 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }) {
 					{sidebarItems.map((item, index) => (
 						<li
 							key={index}
-							className={`flex items-center p-4 text-[${textColor}] border-b border-[${borderColor}] cursor-pointer hover:bg-[${hoverBg}] transition`}
+							className={`flex items-center p-4 text-[#bbb] border-b border-[#333] cursor-pointer hover:bg-[#333] transition`}
 							onClick={() => {
 								if (item.onClick) item.onClick();
 							}}
 						>
 							<span
-								className={`material-icons-outlined mr-2 text-[20px] text-[${iconColor}]`}
+								className={`material-icons-outlined mr-2 text-[20px] text-[#ccc]`}
 							>
 								{item.icon}
 							</span>
@@ -46,6 +41,7 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }) {
 				</ul>
 			</div>
 
+			{/* Overlay */}
 			<div
 				className={`fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] z-9 ${
 					isOpen ? "block" : "hidden"
