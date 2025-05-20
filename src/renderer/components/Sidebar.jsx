@@ -6,41 +6,43 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }) {
 		}
 	};
 
+	const sidebarItems = [
+		{ icon: "home", label: "Principal", onClick: null },
+		{ icon: "explore", label: "Explore", onClick: null },
+		{ icon: "library_music", label: "Library", onClick: null },
+		{ icon: "add", label: "Add", onClick: handleSelectFiles },
+	];
+
+	const bgColor = "#202020";
+	const borderColor = "#333";
+	const textColor = "#bbb";
+	const iconColor = "#ccc";
+	const hoverBg = "#333";
+
 	return (
 		<>
 			<div
-				className={`fixed top-0 h-full w-[250px] bg-[#202020] transform transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] z-10 ${
+				className={`fixed top-0 h-full w-[250px] bg-[${bgColor}] transform transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] z-10 ${
 					isOpen ? "translate-x-0" : "-translate-x-full"
 				}`}
 			>
 				<ul className="list-none p-[72px_0] m-0">
-					<li className="flex items-center p-4 text-[#bbb] border-b border-[#333] cursor-pointer hover:bg-[#333] transition">
-						<span className="material-icons-outlined mr-2 text-[20px] text-[#ccc]">
-							home
-						</span>
-						Principal
-					</li>
-					<li className="flex items-center p-4 text-[#bbb] border-b border-[#333] cursor-pointer hover:bg-[#333] transition">
-						<span className="material-icons-outlined mr-2 text-[20px] text-[#ccc]">
-							explore
-						</span>
-						Explore
-					</li>
-					<li className="flex items-center p-4 text-[#bbb] border-b border-[#333] cursor-pointer hover:bg-[#333] transition">
-						<span className="material-icons-outlined mr-2 text-[20px] text-[#ccc]">
-							library_music
-						</span>
-						Library
-					</li>
-					<li
-						onClick={handleSelectFiles}
-						className="flex items-center p-4 text-[#bbb] border-b border-[#333] cursor-pointer hover:bg-[#333] transition"
-					>
-						<span className="material-icons-outlined mr-2 text-[20px] text-[#ccc]">
-							add
-						</span>
-						Add
-					</li>
+					{sidebarItems.map((item, index) => (
+						<li
+							key={index}
+							className={`flex items-center p-4 text-[${textColor}] border-b border-[${borderColor}] cursor-pointer hover:bg-[${hoverBg}] transition`}
+							onClick={() => {
+								if (item.onClick) item.onClick();
+							}}
+						>
+							<span
+								className={`material-icons-outlined mr-2 text-[20px] text-[${iconColor}]`}
+							>
+								{item.icon}
+							</span>
+							{item.label}
+						</li>
+					))}
 				</ul>
 			</div>
 
