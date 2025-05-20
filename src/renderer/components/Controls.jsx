@@ -37,13 +37,13 @@ export default function Controls({
 				<div className="flex items-center gap-2">
 					<button
 						onClick={onPrevious}
-						className="text-white text-2xl hover:scale-105 transition"
+						className="text-white cursor-pointer text-2xl hover:scale-105 transition"
 					>
 						<span className="material-icons">skip_previous</span>
 					</button>
 					<button
 						onClick={onPlayPause}
-						className="text-white text-2xl hover:scale-105 transition"
+						className="text-white cursor-pointer text-2xl hover:scale-105 transition"
 					>
 						{isPlaying ? (
 							<span className="material-icons">pause</span>
@@ -53,7 +53,7 @@ export default function Controls({
 					</button>
 					<button
 						onClick={onNext}
-						className="text-white text-2xl hover:scale-105 transition"
+						className="text-white cursor-pointer text-2xl hover:scale-105 transition"
 					>
 						<span className="material-icons">skip_next</span>
 					</button>
@@ -80,13 +80,13 @@ export default function Controls({
 
 				{/* Right controls */}
 				<div className="flex items-center gap-2">
-					<button className="text-neutral-400 hover:text-white text-2xl transition">
+					<button className="text-white cursor-pointer hover:scale-105 text-2xl transition">
 						<span className="material-icons-outlined">volume_up</span>
 					</button>
-					<button className="text-neutral-400 hover:text-white text-2xl transition">
+					<button className="text-white cursor-pointer hover:scale-105 text-2xl transition">
 						<span className="material-icons">repeat</span>
 					</button>
-					<button className="text-neutral-400 hover:text-white text-2xl transition">
+					<button className="text-white cursor-pointer hover:scale-105 text-2xl transition">
 						<span className="material-icons">shuffle</span>
 					</button>
 				</div>
