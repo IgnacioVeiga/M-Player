@@ -2,27 +2,25 @@
   "name": "m-player",
   "author": "Ignacio Veiga <ignacioveiga@example.com>",
   "description": "Music Player made with React & Electron",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "private": true,
-  "main": "src/electron/electron.js",
+  "main": "src/main/main.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "electron": "cross-env NODE_ENV=development electron .",
-    "start": "concurrently \"npm run dev\" \"npm run electron\"",
     "dist": "npm run build && electron-builder"
   },
   "build": {
     "appId": "com.ignacioveiga.mplayer",
     "productName": "M-Player",
-    "icon": "src/assets/icon",
+    "icon": "src/renderer/assets/icon",
     "directories": {
       "output": "release",
       "buildResources": "assets"
     },
     "files": [
       "dist/**/*",
-      "src/electron/**/*"
+      "src/main/**/*"
     ],
     "asar": true,
     "win": {
@@ -59,11 +57,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.4.1",
-    "concurrently": "^9.1.2",
-    "cross-env": "^7.0.3",
     "electron": "^33.2.0",
     "electron-builder": "^26.0.12",
     "tailwindcss": "^4.1.7",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-plugin-electron": "^0.12.0"
   }
 }
