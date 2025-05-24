@@ -16,7 +16,7 @@
     "icon": "assets/icon",
     "files": [
       "build/app/**/*",
-      "build/electron/**/*"
+      "electron/**/*"
     ],
     "extraResources": [
       {
