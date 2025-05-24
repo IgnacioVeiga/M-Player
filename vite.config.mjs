@@ -15,7 +15,7 @@ export default defineConfig({
                 entry: 'electron/main.js',
                 vite: {
                     build: {
-                        outDir: path.resolve(__dirname, 'build/electron')
+                        outDir: 'build/electron'
                     }
                 }
             },
@@ -23,14 +23,14 @@ export default defineConfig({
                 input: 'electron/preload.js',
                 vite: {
                     build: {
-                        outDir: path.resolve(__dirname, 'build/electron')
+                        outDir: 'build/electron'
                     }
                 }
             }
         })
     ],
     build: {
-        outDir: path.resolve(__dirname, 'build/app'),
+        outDir: 'build/app',
         emptyOutDir: true
     },
     server: {
