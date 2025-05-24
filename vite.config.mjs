@@ -5,28 +5,23 @@ import tailwindcss from '@tailwindcss/vite'
 import electron from 'vite-plugin-electron'
 
 export default defineConfig({
-    root: './src/renderer',
+    root: './',
     base: './',
     plugins: [
         react(),
         tailwindcss(),
         electron({
             main: {
-                entry: 'src/main/main.js'
+                entry: 'electron/main.js'
             },
             preload: {
-                input: 'src/main/preload.js'
+                input: 'electron/preload.js'
             }
         })
     ],
     build: {
-        outDir: path.resolve(__dirname, 'dist/renderer'),
+        outDir: path.resolve(__dirname, 'dist'),
         emptyOutDir: true
-    },
-    resolve: {
-        alias: {
-            '@': path.resolve(__dirname, './src/renderer')
-        }
     },
     server: {
         port: 5173,

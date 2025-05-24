@@ -38,7 +38,7 @@ async function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 860,
         height: 640,
-        icon: path.join(__dirname, '../renderer/assets', 'icon.png'),
+        icon: path.join(__dirname, '../assets', 'icon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             contextIsolation: true,
@@ -51,7 +51,7 @@ async function createWindow() {
         await mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL)
         mainWindow.webContents.openDevTools()
     } else {
-        const indexPath = path.join(__dirname, '../renderer/index.html')
+        const indexPath = path.join(__dirname, '../index.html')
         await mainWindow.loadFile(indexPath)
     }
 }

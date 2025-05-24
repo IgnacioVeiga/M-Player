@@ -1,4 +1,4 @@
-import '@/styles/ProgressBar.css';
+import '../styles/ProgressBar.css';
 
 export default function ProgressBar({ progress, duration, onProgressChange }) {
     const handleChange = (e) => {

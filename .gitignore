@@ -10,6 +10,7 @@
 /build
 /dist
 /release
+/dist-electron
 
 # recursos del sistema
 .DS_Store
