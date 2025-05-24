@@ -51,8 +51,7 @@ async function createWindow() {
         await mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL)
         mainWindow.webContents.openDevTools()
     } else {
-        const indexPath = path.join(__dirname, '../index.html')
-        await mainWindow.loadFile(indexPath)
+        await mainWindow.loadFile(path.join(__dirname, 'app', 'index.html'))
     }
 }
 

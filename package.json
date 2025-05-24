@@ -14,14 +14,23 @@
     "appId": "com.ignacioveiga.mplayer",
     "productName": "M-Player",
     "icon": "assets/icon",
+    "files": [
+      "build/app/**/*",
+      "build/electron/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "assets/",
+        "to": "assets",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
     "directories": {
       "output": "release",
       "buildResources": "assets"
     },
-    "files": [
-      "dist/**/*",
-      "electron/**/*"
-    ],
     "asar": true,
     "win": {
       "target": [
@@ -31,7 +40,8 @@
             "x64",
             "ia32"
           ]
-        }
+        },
+        "portable"
       ]
     },
     "linux": {
