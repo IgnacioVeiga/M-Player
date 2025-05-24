@@ -12,20 +12,10 @@ export default defineConfig({
         tailwindcss(),
         electron({
             main: {
-                entry: 'electron/main.js',
-                vite: {
-                    build: {
-                        outDir: 'build/electron'
-                    }
-                }
+                entry: 'electron/main.js'
             },
             preload: {
-                input: 'electron/preload.js',
-                vite: {
-                    build: {
-                        outDir: 'build/electron'
-                    }
-                }
+                input: 'electron/preload.js'
             }
         })
     ],
