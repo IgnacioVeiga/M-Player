@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const http = require('http');
 const { registerFileHandlers } = require('./fileHandlers');
@@ -27,6 +27,38 @@ function waitForViteDevServer(url, timeout = 10000) {
         check();
     });
 }
+
+const template = [
+    {
+        label: 'Archivo',
+        submenu: [
+            {
+                label: 'Añadir archivo', click: () => {
+                    // Acción para añadir un archivo
+                }
+            },
+            { label: 'Salir', role: 'quit' }
+        ]
+    },
+    {
+        label: 'Herramientas',
+        submenu: [
+            {
+                label: 'Consola', role: 'toggledevtools'
+            },
+            {
+                label: 'Recargar', role: 'reload'
+            },
+            {
+                label: 'Forzar recarga', role: 'forcereload'
+            }
+        ]
+    }
+];
+const menu = Menu.buildFromTemplate(template);
+
+// Establecer el menú en la aplicación
+Menu.setApplicationMenu(menu);
 
 async function createWindow() {
     const mainWindow = new BrowserWindow({
