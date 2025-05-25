@@ -1,4 +1,8 @@
-export default function Navbar({ onMenuClick }) {
+type NavbarProps = {
+	onMenuClick: () => void;
+};
+
+export default function Navbar({ onMenuClick }: NavbarProps) {
 	const userIcon = null;
 
 	return (

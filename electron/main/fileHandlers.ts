@@ -1,10 +1,15 @@
-const { ipcMain, dialog } = require('electron');
-const fs = require('fs');
-const mm = require('music-metadata');
-const mime = require('mime-types');
-const { uint8ArrayToBase64 } = require('./utils.js');
+import { ipcMain, dialog } from 'electron';
+import fs from 'fs';
+import * as mm from 'music-metadata';
+import mime from 'mime-types';
 
-function registerFileHandlers() {
+function uint8ArrayToBase64(uint8Array: Uint8Array): string {
+    // Convert Uint8Array to binary string and then to base64
+    const binary = Array.from(uint8Array, byte => String.fromCharCode(byte)).join('');
+    return Buffer.from(binary, 'binary').toString('base64');
+}
+
+export function registerFileHandlers() {
     ipcMain.handle('select-audio-files', async () => {
         const { canceled, filePaths } = await dialog.showOpenDialog({
             properties: ['openFile', 'multiSelections'],
@@ -13,11 +18,9 @@ function registerFileHandlers() {
 
         if (canceled) return null;
 
-        const musicMetadata = await mm.loadMusicMetadata();
-
         const filesWithMetadata = await Promise.all(filePaths.map(async (filePath) => {
             const fileBuffer = fs.readFileSync(filePath);
-            const metadata = await musicMetadata.parseBuffer(fileBuffer);
+            const metadata = await mm.parseBuffer(fileBuffer, filePath);
 
             let imageBase64 = null;
 
@@ -52,5 +55,3 @@ function registerFileHandlers() {
         }
     });
 }
-
-module.exports = { registerFileHandlers };

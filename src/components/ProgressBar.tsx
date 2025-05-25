@@ -1,7 +1,13 @@
 import '../styles/ProgressBar.css';
 
-export default function ProgressBar({ progress, duration, onProgressChange }) {
-    const handleChange = (e) => {
+type ProgressBarProps = {
+    progress: number;
+    duration: number;
+    onProgressChange: (value: number) => void;
+};
+
+export default function ProgressBar({ progress, duration, onProgressChange }: ProgressBarProps) {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = parseFloat(e.target.value);
         onProgressChange(newValue);
     };
@@ -15,7 +21,7 @@ export default function ProgressBar({ progress, duration, onProgressChange }) {
                 step="0.01"
                 value={progress}
                 onChange={handleChange}
-                style={{ '--progress': `${(progress / duration) * 100}%` }}
+                style={{ '--progress': `${(progress / duration) * 100}%` } as React.CSSProperties}
             />
         </div>
     );

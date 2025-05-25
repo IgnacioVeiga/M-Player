@@ -2,7 +2,13 @@ import { useState } from "react";
 import FileList from "./FileList";
 import Lyrics from "./Lyrics";
 
-export default function Playlist({ files, file, onFileSelect }) {
+interface PlaylistProps {
+	files: any[]; // Replace 'any[]' with the actual file type if available
+	file: any;    // Replace 'any' with the actual file type if available
+	onFileSelect: (file: any) => void; // Adjust the parameter type as needed
+}
+
+export default function Playlist({ files, file, onFileSelect }: PlaylistProps) {
 	const [activeTab, setActiveTab] = useState("UP_NEXT");
 
 	const renderContent = () => {

@@ -1,6 +1,12 @@
-export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }) {
+interface SidebarProps {
+	isOpen: boolean;
+	toggleSidebar: () => void;
+	onFilesSelected: (files: any) => void; // Replace 'any' with a more specific type if possible
+}
+
+export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: SidebarProps) {
 	const handleSelectFiles = async () => {
-		const selectedFiles = await window.Electron.selectAudioFiles();
+		const selectedFiles = await window.ipcRenderer.invoke("select-audio-files");
 		if (selectedFiles) {
 			onFilesSelected(selectedFiles);
 		}

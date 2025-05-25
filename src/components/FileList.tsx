@@ -1,6 +1,20 @@
 import Artwork from "./Artwork";
 
-export default function FileList({ files, file, onFileSelect }) {
+type FileType = {
+	path: string;
+	title?: string;
+	name: string;
+	artist?: string;
+	// add other fields as needed
+};
+
+interface FileListProps {
+	files: FileType[];
+	file?: FileType;
+	onFileSelect: (file: FileType) => void;
+}
+
+export default function FileList({ files, file, onFileSelect }: FileListProps) {
 	return (
 		<ul className="list-none p-0 m-0 overflow-y-auto overflow-x-hidden">
 			{files.map((f, index) => (

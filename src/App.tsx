@@ -1,12 +1,14 @@
-import { useState, useRef, useEffect } from 'react';
-import Sidebar from './components/Sidebar';
+import { useState, useRef, useEffect, SetStateAction } from 'react';
 import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 import Artwork from './components/Artwork';
 import Playlist from './components/Playlist';
 import Controls from './components/Controls';
 
+type AudioFile = { path: string; [key: string]: any };
+
 export default function App() {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<AudioFile[]>([]);
   const [currentFileIndex, setCurrentFileIndex] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,7 +19,7 @@ export default function App() {
 
   const currentFile = files[currentFileIndex];
 
-  const loadFiles = (newFiles) => {
+  const loadFiles = (newFiles: any) => {
     setFiles((prevFiles) => [...prevFiles, ...newFiles]);
   };
 
@@ -39,7 +41,12 @@ export default function App() {
     setIsPlaying(!isPlaying);
   };
 
-  const handleFileSelect = (file) => {
+  interface HandleFileSelectProps {
+    path: string;
+    [key: string]: any;
+  }
+
+  const handleFileSelect = (file: HandleFileSelectProps) => {
     const index = files.findIndex((f) => f.path === file.path);
     if (index !== -1) {
       setCurrentFileIndex(index);
@@ -48,9 +55,10 @@ export default function App() {
 
   const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
-  const handleProgressChange = (newTime) => {
-    audioRef.current.currentTime = newTime;
-    setProgress(newTime);
+  const handleProgressChange = (newTime: SetStateAction<number>) => {
+    const time = typeof newTime === 'function' ? newTime(progress) : newTime;
+    audioRef.current.currentTime = time;
+    setProgress(time);
   };
 
   useEffect(() => {
@@ -86,7 +94,7 @@ export default function App() {
     const loadAndPlayAudio = async () => {
       if (currentFile) {
         try {
-          const audioUrl = await window.Electron.loadAudioFile(currentFile.path);
+          const audioUrl = await window.ipcRenderer.invoke('load-audio-file', currentFile.path);
           audio.src = audioUrl;
           await audio.play();
           setIsPlaying(true);

@@ -1,6 +1,18 @@
 import ProgressBar from "./ProgressBar";
 import Artwork from "./Artwork";
 
+type ControlsProps = {
+	file: any;
+	onPrevious: () => void;
+	onNext: () => void;
+	onPlayPause: () => void;
+	isPlaying: boolean;
+	audioRef: React.RefObject<HTMLAudioElement>;
+	progress: number;
+	duration: number;
+	onProgressChange: (value: number) => void;
+};
+
 export default function Controls({
 	file,
 	onPrevious,
@@ -11,8 +23,8 @@ export default function Controls({
 	progress,
 	duration,
 	onProgressChange,
-}) {
-	const formatTime = (time) => {
+}: ControlsProps) {
+	const formatTime = (time: number) => {
 		const minutes = Math.floor(time / 60);
 		const seconds = Math.floor(time % 60)
 			.toString()

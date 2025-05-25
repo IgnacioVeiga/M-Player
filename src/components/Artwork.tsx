@@ -1,4 +1,5 @@
-export default function Artwork({ file, size = "large" }) {
+export default function Artwork({ file, size = "large" }: { file: any; size?: "large" | "thumbnail" }) {
+	// Default to "large" if size is not provided
 	const isThumbnail = size === "thumbnail";
 
 	return (
