@@ -44,26 +44,36 @@ const indexHtml = path.join(RENDERER_DIST, 'index.html')
 const template: Electron.MenuItemConstructorOptions[] = [
     {
         label: 'Archivo',
-        submenu: [{
-            label: 'Añadir archivo',
-            click: () => {
-                // Acción para añadir un archivo
+        submenu: [
+            {
+                label: 'Añadir',
+                enabled: false,
+                accelerator: 'CmdOrCtrl+O'
+            },
+            {
+                label: 'Salir',
+                role: 'quit',
+                accelerator: 'CmdOrCtrl+Q'
             }
-        },
-        { label: 'Salir', role: 'quit' }
         ]
     },
     {
         label: 'Herramientas',
         submenu: [
             {
-                label: 'Consola', role: 'toggleDevTools'
+                label: 'Consola',
+                role: 'toggleDevTools',
+                accelerator: 'f12'
             },
             {
-                label: 'Recargar', role: 'reload'
+                label: 'Recargar',
+                role: 'reload',
+                accelerator: 'CmdOrCtrl+R'
             },
             {
-                label: 'Forzar recarga', role: 'forceReload'
+                label: 'Forzar recarga',
+                role: 'forceReload',
+                accelerator: 'CmdOrCtrl+Shift+R'
             }
         ]
     }
@@ -71,11 +81,11 @@ const template: Electron.MenuItemConstructorOptions[] = [
 const menu = Menu.buildFromTemplate(template);
 
 // Establecer el menú en la aplicación
-// Menu.setApplicationMenu(menu);
+Menu.setApplicationMenu(menu);
 
 async function createWindow() {
     win = new BrowserWindow({
-        title: 'Main window',
+        title: 'M-Player',
         icon: path.join(process.env.VITE_PUBLIC, 'icon.ico'),
         webPreferences: {
             preload,
