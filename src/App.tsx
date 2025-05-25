@@ -112,7 +112,7 @@ export default function App() {
       <Navbar onMenuClick={toggleSidebar} />
       <Sidebar onFilesSelected={loadFiles} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
-    <div className="grid grid-cols-[2fr_1.5fr] gap-4">
+    <div className="grid lg:grid-cols-[2fr_1.5fr] gap-4 sm:grid-cols-[1fr] sm:gap-0">
         <Artwork file={currentFile} />
         <Playlist files={files} file={currentFile} onFileSelect={handleFileSelect} />
       </div>

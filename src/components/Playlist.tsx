@@ -4,18 +4,25 @@ import Lyrics from "./Lyrics";
 
 interface PlaylistProps {
 	files: any[]; // Replace 'any[]' with the actual file type if available
-	file: any;    // Replace 'any' with the actual file type if available
+	file: any; // Replace 'any' with the actual file type if available
 	onFileSelect: (file: any) => void; // Adjust the parameter type as needed
 }
 
+// Define the Tab enum to represent the different tabs
+enum Tab {
+	UP_NEXT = "UP_NEXT",
+	LYRICS = "LYRICS",
+	RELATED = "RELATED",
+}
+
 export default function Playlist({ files, file, onFileSelect }: PlaylistProps) {
-	const [activeTab, setActiveTab] = useState("UP_NEXT");
+	const [activeTab, setActiveTab] = useState(Tab.UP_NEXT);
 
 	const renderContent = () => {
 		switch (activeTab) {
-			case "LYRICS":
+			case Tab.LYRICS:
 				return <Lyrics file={file} />;
-			case "RELATED":
+			case Tab.RELATED:
 				return <div>Related content here...</div>;
 			default:
 				return (
@@ -31,12 +38,14 @@ export default function Playlist({ files, file, onFileSelect }: PlaylistProps) {
 	return (
 		<div className="flex flex-col mt-[72px] mb-[100px]">
 			<div className="flex justify-around p-2 border-b border-neutral-800">
-				{["UP_NEXT", "LYRICS", "RELATED"].map((tab) => (
+				{Object.values(Tab).map((tab) => (
 					<button
 						key={tab}
 						onClick={() => setActiveTab(tab)}
 						className={`text-sm text-neutral-400 hover:text-white ${
-							activeTab === tab ? "text-white border-b-2 border-white" : "cursor-pointer"
+							activeTab === tab
+								? "text-white border-b-2 border-white"
+								: "cursor-pointer"
 						}`}
 					>
 						{tab.replace("_", " ")}

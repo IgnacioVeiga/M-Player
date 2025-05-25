@@ -1,19 +1,22 @@
 interface LyricsProps {
-    file?: {
-        lyrics?: { text?: string }[];
-    };
+	file?: {
+		lyrics?: { text?: string }[];
+	};
 }
 
 export default function Lyrics({ file }: LyricsProps) {
-    return (
-        <p className='px-5 py-0 text-center whitespace-break-spaces'>
-            {
+	return (
+		<p className="px-5 py-0 text-center whitespace-break-spaces">
+			{file?.lyrics?.map((line, idx) => (
+				<p key={idx}>{line.text}</p>
+			))}
+			{/* {
                 (file && file.lyrics && file.lyrics.length > 0)
                     ?
                     file?.lyrics[0]?.text
                     :
                     ''
-            }
-        </p>
-    );
+            } */}
+		</p>
+	);
 }
