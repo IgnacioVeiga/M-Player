@@ -32,10 +32,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22.x.x
+          node-version: 22.x
 
       - name: Install Dependencies
         run: npm install
+
+      # - name: Run Tests
+      #   run: npm test
+      #   continue-on-error: true
 
       - name: Build Release Files
         run: npm run build
@@ -53,8 +57,10 @@ jobs:
 
       - name: Check if Tag Exists
         id: check_tag
+        shell: bash
         run: |
-          if git ls-remote --tags origin | grep -q "refs/tags/v${{ steps.pkginfo.outputs.version }}$"; then
+          TAG_EXISTS=$(git tag -l "v${{ steps.pkginfo.outputs.version }}")
+          if [ -n "$TAG_EXISTS" ]; then
             echo "exists=true" >> $GITHUB_OUTPUT
           else
             echo "exists=false" >> $GITHUB_OUTPUT
@@ -67,8 +73,27 @@ jobs:
           path: release/
           retention-days: 5
 
-      - name: Create Release
-        id: create_release
+      - name: Zip Release Files (Linux/macOS)
+        if: runner.os != 'Windows' && steps.check_tag.outputs.exists == 'false'
+        run: |
+          if [ -d "release" ] && [ "$(ls -A release)" ]; then
+            zip -r ${{ steps.pkginfo.outputs.name }}_v${{ steps.pkginfo.outputs.version }}_${{ matrix.os }}.zip ./release/*
+          else
+            echo "No files to zip."
+          fi
+        shell: bash
+
+      - name: Zip Release Files (Windows)
+        if: runner.os == 'Windows' && steps.check_tag.outputs.exists == 'false'
+        run: |
+          if (Test-Path release -PathType Container -and (Get-ChildItem release)) {
+            Compress-Archive -Path release/* -DestinationPath "${{ steps.pkginfo.outputs.name }}_v${{ steps.pkginfo.outputs.version }}_${{ matrix.os }}.zip"
+          } else {
+            Write-Host "No files to zip."
+          }
+        shell: pwsh
+
+      - name: Create Release and Upload Asset
         if: steps.check_tag.outputs.exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
@@ -76,25 +101,6 @@ jobs:
           name: ${{ steps.pkginfo.outputs.name }} v${{ steps.pkginfo.outputs.version }}
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Zip Release Files (Linux/macOS)
-        if: runner.os != 'Windows' && steps.check_tag.outputs.exists == 'false'
-        run: |
-          zip -r ${{ steps.pkginfo.outputs.name }}_v${{ steps.pkginfo.outputs.version }}_${{ matrix.os }}.zip ./release/*
-        shell: bash
-
-      - name: Zip Release Files (Windows)
-        if: runner.os == 'Windows' && steps.check_tag.outputs.exists == 'false'
-        run: |
-          Compress-Archive -Path release/* -DestinationPath "${{ steps.pkginfo.outputs.name }}_v${{ steps.pkginfo.outputs.version }}_${{ matrix.os }}.zip"
-        shell: pwsh
-
-      - name: Upload Release Asset
-        if: steps.check_tag.outputs.exists == 'false'
-        uses: softprops/action-gh-release@v2
-        with:
           files: ${{ steps.pkginfo.outputs.name }}_v${{ steps.pkginfo.outputs.version }}_${{ matrix.os }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
