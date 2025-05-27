@@ -1,4 +1,5 @@
 # M-Player
+
 A music player developed with Electron, React and Vite. Based on YouTube Music.
 
 ![Screenshot](image.png)
