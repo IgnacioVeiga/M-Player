@@ -12,7 +12,7 @@ export default function Playlist({ files, file, onFileSelect }: PlaylistProps): 
 			case Tab.LYRICS:
 				return <Lyrics file={file} />;
 			case Tab.RELATED:
-				return <div>Related content here...</div>;
+				return <div className="px-5 py-0 text-center whitespace-break-spaces">No related content available</div>;
 			default:
 				return (
 					<FileList
@@ -25,7 +25,7 @@ export default function Playlist({ files, file, onFileSelect }: PlaylistProps): 
 	};
 
 	return (
-		<div className="flex flex-col mt-[72px] mb-[100px]">
+		<div className="flex flex-col mt-[72px]">
 			<div className="flex justify-around p-2 border-b border-neutral-800">
 				{Object.values(Tab).map((tab) => (
 					<button
@@ -41,7 +41,7 @@ export default function Playlist({ files, file, onFileSelect }: PlaylistProps): 
 					</button>
 				))}
 			</div>
-			<div className="overflow-y-auto">{renderContent()}</div>
+			<div className="h-[85%] overflow-y-auto">{renderContent()}</div>
 		</div>
 	);
 }
