@@ -37,5 +37,5 @@ npm run build
 └── src                                      Renderer source code, your React application
 ```
 
-### Reference
-https://github.com/electron-vite/electron-vite-react/
+## Reference
+[Electron Vite React Repository](https://github.com/electron-vite/electron-vite-react/)
