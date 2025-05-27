@@ -1,7 +1,12 @@
 {
     "typescript.tsdk": "node_modules/typescript/lib",
     "typescript.tsc.autoDetect": "off",
-    "tailwindCSS.experimental.configFile": "src/style.css",
+    "files.associations": {
+        "*.css": "tailwindcss"
+    },
+    "editor.quickSuggestions": {
+        "strings": "on"
+    },
     "json.schemas": [
         {
             "fileMatch": [

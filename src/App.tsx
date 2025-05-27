@@ -1,133 +1,128 @@
-import { useState, useRef, useEffect, SetStateAction } from 'react';
-import Navbar from './components/Navbar';
-import Sidebar from './components/Sidebar';
-import Artwork from './components/Artwork';
-import Playlist from './components/Playlist';
-import Controls from './components/Controls';
+import { useState, useRef, useEffect, SetStateAction } from "react";
+import { JSX } from "react/jsx-runtime";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import Artwork from "@/components/Artwork";
+import Playlist from "@/components/Playlist";
+import Controls from "@/components/Controls";
+import { AudioFile } from "@/types";
 
-type AudioFile = { path: string; [key: string]: any };
+export default function App(): JSX.Element {
+	const [files, setFiles] = useState<AudioFile[]>([]);
+	const [currentFileIndex, setCurrentFileIndex] = useState<number>(-1);
+	const [isPlaying, setIsPlaying] = useState<boolean>(false);
+	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+	const [progress, setProgress] = useState<number>(0);
+	const [duration, setDuration] = useState<number>(0);
+	const audioRef = useRef(new Audio());
+	const currentFile = files[currentFileIndex];
 
-export default function App() {
-  const [files, setFiles] = useState<AudioFile[]>([]);
-  const [currentFileIndex, setCurrentFileIndex] = useState(-1);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
+	const loadFiles = (newFiles: AudioFile[]) =>
+		setFiles((prevFiles) => [...prevFiles, ...newFiles]);
 
-  const audioRef = useRef(new Audio());
+	const handlePrevious = () => {
+		setCurrentFileIndex((prevIndex) =>
+			prevIndex === 0 ? files.length - 1 : prevIndex - 1
+		);
+	};
 
-  const currentFile = files[currentFileIndex];
+	const handleNext = () => {
+		setCurrentFileIndex((prevIndex) =>
+			prevIndex === files.length - 1 ? 0 : prevIndex + 1
+		);
+	};
 
-  const loadFiles = (newFiles: any) => {
-    setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-  };
+	const handlePlayPause = () => {
+		const audio = audioRef.current;
+		if (isPlaying) {
+			audio.pause();
+		} else {
+			audio.play();
+		}
+		setIsPlaying(!isPlaying);
+	};
 
-  const handlePrevious = () => {
-    setCurrentFileIndex((prevIndex) => (prevIndex === 0 ? files.length - 1 : prevIndex - 1));
-  };
+	const handleFileSelect = (file: AudioFile) => {
+		const index = files.findIndex((f) => f.path === file.path);
+		if (index !== -1) {
+			setCurrentFileIndex(index);
+		}
+	};
 
-  const handleNext = () => {
-    setCurrentFileIndex((prevIndex) => (prevIndex === files.length - 1 ? 0 : prevIndex + 1));
-  };
+	const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 
-  const handlePlayPause = () => {
-    const audio = audioRef.current;
-    if (isPlaying) {
-      audio.pause();
-    } else {
-      audio.play();
-    }
-    setIsPlaying(!isPlaying);
-  };
+	const handleProgressChange = (newTime: SetStateAction<number>) => {
+		const time = typeof newTime === "function" ? newTime(progress) : newTime;
+		audioRef.current.currentTime = time;
+		setProgress(time);
+	};
 
-  interface HandleFileSelectProps {
-    path: string;
-    [key: string]: any;
-  }
+	useEffect(() => {
+		const audio = audioRef.current;
+		const updateProgress = () => setProgress(audio.currentTime);
+		const updateDuration = () => setDuration(audio.duration || 0);
+		const handleEnded = () => handleNext();
 
-  const handleFileSelect = (file: HandleFileSelectProps) => {
-    const index = files.findIndex((f) => f.path === file.path);
-    if (index !== -1) {
-      setCurrentFileIndex(index);
-    }
-  };
+		audio.addEventListener("timeupdate", updateProgress);
+		audio.addEventListener("loadedmetadata", updateDuration);
+		audio.addEventListener("ended", handleEnded);
 
-  const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
+		return () => {
+			audio.removeEventListener("timeupdate", updateProgress);
+			audio.removeEventListener("loadedmetadata", updateDuration);
+			audio.removeEventListener("ended", handleEnded);
+		};
+	}, [files]);
 
-  const handleProgressChange = (newTime: SetStateAction<number>) => {
-    const time = typeof newTime === 'function' ? newTime(progress) : newTime;
-    audioRef.current.currentTime = time;
-    setProgress(time);
-  };
+	useEffect(() => {
+		const audio = audioRef.current;
+		const loadAndPlayAudio = async () => {
+			if (currentFile) {
+				try {
+					audio.src = await window.ipcRenderer.invoke(
+						"load-audio-file",
+						currentFile.path
+					);
+					await audio.play();
+					setIsPlaying(true);
+				} catch (err) {
+					console.error("Error loading audio:", err);
+				}
+			}
+		};
 
-  useEffect(() => {
-    const audio = audioRef.current;
+		loadAndPlayAudio();
+	}, [currentFile]);
 
-    const updateProgress = () => {
-      setProgress(audio.currentTime);
-    };
+	return (
+		<div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
+			<Navbar onMenuClick={toggleSidebar} />
+			<Sidebar
+				onFilesSelected={loadFiles}
+				isOpen={isSidebarOpen}
+				toggleSidebar={toggleSidebar}
+			/>
 
-    const updateDuration = () => {
-      setDuration(audio.duration || 0);
-    };
+			<div className="grid lg:grid-cols-[2fr_1.5fr] gap-4 sm:grid-cols-[1fr] sm:gap-0">
+				<Artwork file={currentFile} />
+				<Playlist
+					files={files}
+					file={currentFile}
+					onFileSelect={handleFileSelect}
+				/>
+			</div>
 
-    const handleEnded = () => {
-      handleNext();
-    };
-
-    audio.addEventListener('timeupdate', updateProgress);
-    audio.addEventListener('loadedmetadata', updateDuration);
-    audio.addEventListener('ended', handleEnded);
-
-    return () => {
-      audio.removeEventListener('timeupdate', updateProgress);
-      audio.removeEventListener('loadedmetadata', updateDuration);
-      audio.removeEventListener('ended', handleEnded);
-    };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [files]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    const loadAndPlayAudio = async () => {
-      if (currentFile) {
-        try {
-          const audioUrl = await window.ipcRenderer.invoke('load-audio-file', currentFile.path);
-          audio.src = audioUrl;
-          await audio.play();
-          setIsPlaying(true);
-        } catch (err) {
-          console.error('Error loading audio:', err);
-        }
-      }
-    };
-
-    loadAndPlayAudio();
-  }, [currentFile]);
-
-  return (
-  <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
-      <Navbar onMenuClick={toggleSidebar} />
-      <Sidebar onFilesSelected={loadFiles} isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
-    <div className="grid grid-cols-[2fr_1.5fr] gap-4">
-        <Artwork file={currentFile} />
-        <Playlist files={files} file={currentFile} onFileSelect={handleFileSelect} />
-      </div>
-
-      <Controls
-        file={currentFile}
-        onPrevious={handlePrevious}
-        onNext={handleNext}
-        onPlayPause={handlePlayPause}
-        isPlaying={isPlaying}
-        audioRef={audioRef}
-        progress={progress}
-        duration={duration}
-        onProgressChange={handleProgressChange}
-      />
-    </div>
-  );
+			<Controls
+				file={currentFile}
+				onPrevious={handlePrevious}
+				onNext={handleNext}
+				onPlayPause={handlePlayPause}
+				isPlaying={isPlaying}
+				audioRef={audioRef}
+				progress={progress}
+				duration={duration}
+				onProgressChange={handleProgressChange}
+			/>
+		</div>
+	);
 }

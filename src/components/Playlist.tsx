@@ -1,22 +1,18 @@
 import { useState } from "react";
 import FileList from "./FileList";
 import Lyrics from "./Lyrics";
+import { PlaylistProps, Tab } from "@/types";
+import { JSX } from "react/jsx-runtime";
 
-interface PlaylistProps {
-	files: any[]; // Replace 'any[]' with the actual file type if available
-	file: any;    // Replace 'any' with the actual file type if available
-	onFileSelect: (file: any) => void; // Adjust the parameter type as needed
-}
-
-export default function Playlist({ files, file, onFileSelect }: PlaylistProps) {
-	const [activeTab, setActiveTab] = useState("UP_NEXT");
+export default function Playlist({ files, file, onFileSelect }: PlaylistProps): JSX.Element {
+	const [activeTab, setActiveTab] = useState(Tab.UP_NEXT);
 
 	const renderContent = () => {
 		switch (activeTab) {
-			case "LYRICS":
+			case Tab.LYRICS:
 				return <Lyrics file={file} />;
-			case "RELATED":
-				return <div>Related content here...</div>;
+			case Tab.RELATED:
+				return <div className="px-5 py-0 text-center whitespace-break-spaces">No related content available</div>;
 			default:
 				return (
 					<FileList
@@ -29,21 +25,23 @@ export default function Playlist({ files, file, onFileSelect }: PlaylistProps) {
 	};
 
 	return (
-		<div className="flex flex-col mt-[72px] mb-[100px]">
+		<div className="flex flex-col mt-[72px]">
 			<div className="flex justify-around p-2 border-b border-neutral-800">
-				{["UP_NEXT", "LYRICS", "RELATED"].map((tab) => (
+				{Object.values(Tab).map((tab) => (
 					<button
 						key={tab}
 						onClick={() => setActiveTab(tab)}
 						className={`text-sm text-neutral-400 hover:text-white ${
-							activeTab === tab ? "text-white border-b-2 border-white" : "cursor-pointer"
+							activeTab === tab
+								? "text-white border-b-2 border-white"
+								: "cursor-pointer"
 						}`}
 					>
 						{tab.replace("_", " ")}
 					</button>
 				))}
 			</div>
-			<div className="overflow-y-auto">{renderContent()}</div>
+			<div className="h-[85%] overflow-y-auto">{renderContent()}</div>
 		</div>
 	);
 }

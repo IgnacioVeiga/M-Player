@@ -1,6 +1,10 @@
-export default function Artwork({ file, size = "large" }: { file: any; size?: "large" | "thumbnail" }) {
+import { ArtworkSize, AudioFile } from "@/types";
+import { JSX } from "react/jsx-runtime";
+
+export default function Artwork({ file, size = 'large' }: { file: AudioFile; size?: ArtworkSize }): JSX.Element {
 	// Default to "large" if size is not provided
 	const isThumbnail = size === "thumbnail";
+	const imageClasses = isThumbnail ? "h-full" : "max-w-[80vw] max-h-[90%] rounded-2xl";
 
 	return (
 		<div
@@ -14,14 +18,10 @@ export default function Artwork({ file, size = "large" }: { file: any; size?: "l
 				<img
 					src={file.image}
 					alt="Album Art"
-					className={
-						isThumbnail
-							? "h-full"
-							: "max-w-[80vw] max-h-[90%] rounded-2xl"
-					}
+					className={imageClasses}
 				/>
 			) : (
-				<div className="w-full h-full flex items-center justify-center text-center text-xs text-white bg-neutral-700 rounded-2xl">
+				<div className="h-full w-auto aspect-[1/1] flex items-center justify-center text-center text-xs text-white bg-neutral-700 rounded-2xl">
 					No Image
 				</div>
 			)}

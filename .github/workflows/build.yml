@@ -29,7 +29,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22.15.0
+          node-version: 22.16.0
 
       - name: Install Dependencies
         run: npm install
@@ -39,10 +39,42 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Get package version
+        id: pkg
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      - name: Get project name
+        id: pkgname
+        run: echo "name=$(node -p \"require('./package.json').name\")" >> $GITHUB_OUTPUT
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: release_on_${{ matrix.os }}
+          name: ${{ steps.pkgname.outputs.name }}_v${{ steps.pkg.outputs.version }}_${{ matrix.os }}
           path: release/
           retention-days: 5
-          overwrite: true
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.pkg.outputs.version }}
+          release_name: ${{ steps.pkgname.outputs.name }} v${{ steps.pkg.outputs.version }}
+          draft: false
+          prerelease: false
+
+      - name: Zip Release Files
+        run: |
+          zip -r ${{ steps.pkgname.outputs.name }}_v${{ steps.pkg.outputs.version }}_${{ matrix.os }}.zip ./release/*
+        shell: bash
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./${{ steps.pkgname.outputs.name }}_v${{ steps.pkg.outputs.version }}_${{ matrix.os }}.zip
+          asset_name: ${{ steps.pkgname.outputs.name }}_v${{ steps.pkg.outputs.version }}_${{ matrix.os }}.zip
+          asset_content_type: application/zip
