@@ -23,19 +23,21 @@ npm run build
 ```
 
 ## Directory structure
+
 ```tree
 ├── electron                                 Electron-related code
 │   ├── main                                 Main-process source code
 │   └── preload                              Preload-scripts source code
 │
-├── release                                  Generated after production build, contains executables
+├── release                                  Generated after production build
 │   └── {version}
-│       ├── {os}-{os_arch}                   Contains unpacked application executable
+│       ├── {os}-{os_arch}                   Contains unpacked application
 │       └── {app_name}_{version}.{ext}       Installer for the application
 │
 ├── public                                   Static assets
-└── src                                      Renderer source code, your React application
+└── src                                      Renderer source code (react code)
 ```
 
 ## Reference
+
 [Electron Vite React Repository](https://github.com/electron-vite/electron-vite-react/)
