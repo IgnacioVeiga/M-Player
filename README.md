@@ -1,5 +1,7 @@
 # M-Player
-A music player developed with Electron, React and Vite.
+A music player developed with Electron, React and Vite. Based on YouTube Music.
+
+![Screenshot](image.png)
 
 ## Setup
 
@@ -15,13 +17,12 @@ npm install
 
 # develop
 npm run dev
+
+# build executable
+npm run build
 ```
 
 ## Directory structure
-
-Familiar React application structure, just with `electron` folder on the top :wink:  
-*Files in this folder will be separated from your React application and built into `dist-electron`*  
-
 ```tree
 ├── electron                                 Electron-related code
 │   ├── main                                 Main-process source code
