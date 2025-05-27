@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, SetStateAction } from "react";
+import { JSX } from "react/jsx-runtime";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import Artwork from "@/components/Artwork";
@@ -6,7 +7,7 @@ import Playlist from "@/components/Playlist";
 import Controls from "@/components/Controls";
 import { AudioFile } from "@/types";
 
-export default function App() {
+export default function App(): JSX.Element {
 	const [files, setFiles] = useState<AudioFile[]>([]);
 	const [currentFileIndex, setCurrentFileIndex] = useState<number>(-1);
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);

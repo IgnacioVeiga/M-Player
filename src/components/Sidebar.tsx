@@ -1,6 +1,7 @@
 import { SidebarProps } from "@/types";
+import { JSX } from "react/jsx-runtime";
 
-export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: SidebarProps) {
+export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: SidebarProps): JSX.Element {
 	const handleSelectFiles = async () => {
 		const selectedFiles = await window.ipcRenderer.invoke("select-audio-files");
 		if (selectedFiles) {

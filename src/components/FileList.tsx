@@ -1,7 +1,8 @@
 import { FileListProps } from "@/types";
 import Artwork from "./Artwork";
+import { JSX } from "react/jsx-runtime";
 
-export default function FileList({ files, file, onFileSelect }: FileListProps) {
+export default function FileList({ files, file, onFileSelect }: FileListProps): JSX.Element {
 	return (
 		<ul className="list-none p-0 m-0 overflow-y-auto overflow-x-hidden">
 			{files.map((f, index) => (

@@ -1,6 +1,7 @@
 import { NavbarProps } from "@/types";
+import { JSX } from "react/jsx-runtime";
 
-export default function Navbar({ onMenuClick }: NavbarProps) {
+export default function Navbar({ onMenuClick }: NavbarProps): JSX.Element {
 	const userIcon = null;
 
 	return (

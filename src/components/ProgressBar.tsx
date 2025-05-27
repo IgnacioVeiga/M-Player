@@ -1,7 +1,8 @@
 import { ProgressBarProps } from '@/types';
 import '@/styles/ProgressBar.css';
+import { JSX } from 'react/jsx-runtime';
 
-export default function ProgressBar({ progress, duration, onProgressChange }: ProgressBarProps) {
+export default function ProgressBar({ progress, duration, onProgressChange }: ProgressBarProps): JSX.Element {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = parseFloat(e.target.value);
         onProgressChange(newValue);

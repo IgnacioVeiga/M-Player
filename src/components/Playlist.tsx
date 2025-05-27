@@ -2,8 +2,9 @@ import { useState } from "react";
 import FileList from "./FileList";
 import Lyrics from "./Lyrics";
 import { PlaylistProps, Tab } from "@/types";
+import { JSX } from "react/jsx-runtime";
 
-export default function Playlist({ files, file, onFileSelect }: PlaylistProps) {
+export default function Playlist({ files, file, onFileSelect }: PlaylistProps): JSX.Element {
 	const [activeTab, setActiveTab] = useState(Tab.UP_NEXT);
 
 	const renderContent = () => {
