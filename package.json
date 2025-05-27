@@ -2,7 +2,7 @@
   "name": "m-player",
   "author": "Ignacio Veiga <ignacioveiga@example.com>",
   "description": "Music Player made with React & Electron",
-  "version": "0.10.0",
+  "version": "0.11.25",
   "private": true,
   "debug": {
     "env": {
