@@ -1,26 +1,23 @@
 import { useState, useRef, useEffect, SetStateAction } from "react";
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import Artwork from "./components/Artwork";
-import Playlist from "./components/Playlist";
-import Controls from "./components/Controls";
-import { AudioFile } from "./types";
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import Artwork from "@/components/Artwork";
+import Playlist from "@/components/Playlist";
+import Controls from "@/components/Controls";
+import { AudioFile } from "@/types";
 
 export default function App() {
 	const [files, setFiles] = useState<AudioFile[]>([]);
-	const [currentFileIndex, setCurrentFileIndex] = useState(-1);
-	const [isPlaying, setIsPlaying] = useState(false);
-	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	const [progress, setProgress] = useState(0);
-	const [duration, setDuration] = useState(0);
-
+	const [currentFileIndex, setCurrentFileIndex] = useState<number>(-1);
+	const [isPlaying, setIsPlaying] = useState<boolean>(false);
+	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+	const [progress, setProgress] = useState<number>(0);
+	const [duration, setDuration] = useState<number>(0);
 	const audioRef = useRef(new Audio());
-
 	const currentFile = files[currentFileIndex];
 
-	const loadFiles = (newFiles: any) => {
+	const loadFiles = (newFiles: AudioFile[]) =>
 		setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-	};
 
 	const handlePrevious = () => {
 		setCurrentFileIndex((prevIndex) =>
@@ -61,18 +58,9 @@ export default function App() {
 
 	useEffect(() => {
 		const audio = audioRef.current;
-
-		const updateProgress = () => {
-			setProgress(audio.currentTime);
-		};
-
-		const updateDuration = () => {
-			setDuration(audio.duration || 0);
-		};
-
-		const handleEnded = () => {
-			handleNext();
-		};
+		const updateProgress = () => setProgress(audio.currentTime);
+		const updateDuration = () => setDuration(audio.duration || 0);
+		const handleEnded = () => handleNext();
 
 		audio.addEventListener("timeupdate", updateProgress);
 		audio.addEventListener("loadedmetadata", updateDuration);
@@ -83,8 +71,6 @@ export default function App() {
 			audio.removeEventListener("loadedmetadata", updateDuration);
 			audio.removeEventListener("ended", handleEnded);
 		};
-
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [files]);
 
 	useEffect(() => {
@@ -92,11 +78,10 @@ export default function App() {
 		const loadAndPlayAudio = async () => {
 			if (currentFile) {
 				try {
-					const audioUrl = await window.ipcRenderer.invoke(
+					audio.src = await window.ipcRenderer.invoke(
 						"load-audio-file",
 						currentFile.path
 					);
-					audio.src = audioUrl;
 					await audio.play();
 					setIsPlaying(true);
 				} catch (err) {
