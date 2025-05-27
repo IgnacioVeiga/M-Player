@@ -1,19 +1,7 @@
 import { useState } from "react";
 import FileList from "./FileList";
 import Lyrics from "./Lyrics";
-
-interface PlaylistProps {
-	files: any[]; // Replace 'any[]' with the actual file type if available
-	file: any; // Replace 'any' with the actual file type if available
-	onFileSelect: (file: any) => void; // Adjust the parameter type as needed
-}
-
-// Define the Tab enum to represent the different tabs
-enum Tab {
-	UP_NEXT = "UP_NEXT",
-	LYRICS = "LYRICS",
-	RELATED = "RELATED",
-}
+import { PlaylistProps, Tab } from "@/types";
 
 export default function Playlist({ files, file, onFileSelect }: PlaylistProps) {
 	const [activeTab, setActiveTab] = useState(Tab.UP_NEXT);

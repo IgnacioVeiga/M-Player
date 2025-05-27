@@ -1,8 +1,4 @@
-interface LyricsProps {
-	file?: {
-		lyrics?: { text?: string }[];
-	};
-}
+import { LyricsProps } from "@/types";
 
 export default function Lyrics({ file }: LyricsProps) {
 	return (

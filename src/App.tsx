@@ -4,8 +4,7 @@ import Sidebar from './components/Sidebar';
 import Artwork from './components/Artwork';
 import Playlist from './components/Playlist';
 import Controls from './components/Controls';
-
-type AudioFile = { path: string; [key: string]: any };
+import { AudioFile } from './types';
 
 export default function App() {
   const [files, setFiles] = useState<AudioFile[]>([]);

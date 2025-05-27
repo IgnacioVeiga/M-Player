@@ -1,10 +1,5 @@
-import '../styles/ProgressBar.css';
-
-type ProgressBarProps = {
-    progress: number;
-    duration: number;
-    onProgressChange: (value: number) => void;
-};
+import { ProgressBarProps } from '@/types';
+import '@/styles/ProgressBar.css';
 
 export default function ProgressBar({ progress, duration, onProgressChange }: ProgressBarProps) {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

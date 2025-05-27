@@ -1,4 +1,6 @@
-export default function Artwork({ file, size = "large" }: { file: any; size?: "large" | "thumbnail" }) {
+import { ArtworkSize, AudioFile } from "@/types";
+
+export default function Artwork({ file, size = 'large' }: { file: AudioFile; size?: ArtworkSize }) {
 	// Default to "large" if size is not provided
 	const isThumbnail = size === "thumbnail";
 	const imageClasses = isThumbnail ? "h-full" : "max-w-[80vw] max-h-[90%] rounded-2xl";

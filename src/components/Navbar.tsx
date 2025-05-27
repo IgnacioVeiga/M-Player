@@ -1,6 +1,4 @@
-type NavbarProps = {
-	onMenuClick: () => void;
-};
+import { NavbarProps } from "@/types";
 
 export default function Navbar({ onMenuClick }: NavbarProps) {
 	const userIcon = null;

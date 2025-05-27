@@ -1,17 +1,6 @@
 import ProgressBar from "./ProgressBar";
 import Artwork from "./Artwork";
-
-type ControlsProps = {
-	file: any;
-	onPrevious: () => void;
-	onNext: () => void;
-	onPlayPause: () => void;
-	isPlaying: boolean;
-	audioRef: React.RefObject<HTMLAudioElement>;
-	progress: number;
-	duration: number;
-	onProgressChange: (value: number) => void;
-};
+import { ControlsProps } from "@/types";
 
 export default function Controls({
 	file,

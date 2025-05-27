@@ -1,8 +1,4 @@
-interface SidebarProps {
-	isOpen: boolean;
-	toggleSidebar: () => void;
-	onFilesSelected: (files: any) => void; // Replace 'any' with a more specific type if possible
-}
+import { SidebarProps } from "@/types";
 
 export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: SidebarProps) {
 	const handleSelectFiles = async () => {
