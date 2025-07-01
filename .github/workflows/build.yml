@@ -86,7 +86,7 @@ jobs:
       - name: Zip Release Files (Windows)
         if: runner.os == 'Windows' && steps.check_tag.outputs.exists == 'false'
         run: |
-          if (Test-Path release -PathType Container -and (Get-ChildItem release)) {
+          if ((Test-Path release -PathType Container) -and (Get-ChildItem release)) {
             Compress-Archive -Path release/* -DestinationPath "${{ steps.pkginfo.outputs.name }}_v${{ steps.pkginfo.outputs.version }}_${{ matrix.os }}.zip"
           } else {
             Write-Host "No files to zip."
