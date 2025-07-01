@@ -2,7 +2,7 @@
   "name": "m-player",
   "author": "Ignacio Veiga <ignacioveiga@example.com>",
   "description": "Music Player made with React & Electron",
-  "version": "0.11.30",
+  "version": "0.11.32",
   "private": true,
   "debug": {
     "env": {
@@ -18,23 +18,23 @@
     "pretest": "vite build --mode=test"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.7",
+    "@tailwindcss/vite": "^4.1.11",
     "material-icons": "^1.13.14",
     "mime-types": "^3.0.1",
-    "music-metadata": "^11.2.3"
+    "music-metadata": "^11.6.0"
   },
   "devDependencies": {
-    "@types/mime-types": "^2.1.4",
-    "@types/react": "^19.1.5",
-    "@types/react-dom": "^19.1.5",
-    "@vitejs/plugin-react": "^4.5.0",
-    "electron": "^36.3.1",
+    "@types/mime-types": "^3.0.1",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "electron": "^37.1.0",
     "electron-builder": "^26.0.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.7",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5",
+    "vite": "^7.0.0",
     "vite-plugin-electron": "^0.29.0",
     "vite-plugin-electron-renderer": "^0.14.6"
   }
