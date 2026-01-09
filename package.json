@@ -18,23 +18,23 @@
     "pretest": "vite build --mode=test"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
+    "@tailwindcss/vite": "^4.1.18",
     "material-icons": "^1.13.14",
-    "mime-types": "^3.0.1",
-    "music-metadata": "^11.6.0"
+    "mime-types": "^3.0.2",
+    "music-metadata": "^11.10.5"
   },
   "devDependencies": {
     "@types/mime-types": "^3.0.1",
-    "@types/react": "^19.1.8",
-    "@types/react-dom": "^19.1.6",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
     "electron": "^39.2.7",
-    "@vitejs/plugin-react": "^5.1.1",
-    "electron-builder": "^26.0.12",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.11",
-    "typescript": "^5.8.3",
-    "vite": "^7.0.0",
+    "@vitejs/plugin-react": "^5.1.2",
+    "electron-builder": "^26.4.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
     "vite-plugin-electron": "^0.29.0",
     "vite-plugin-electron-renderer": "^0.14.6"
   }
