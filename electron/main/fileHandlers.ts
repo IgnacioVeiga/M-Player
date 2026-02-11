@@ -1,9 +1,13 @@
 import { AudioFile } from '@/types';
 import { ipcMain, dialog, OpenDialogReturnValue, OpenDialogOptions } from 'electron';
 import { IPicture, parseFile } from 'music-metadata';
+import { lookup } from 'mime-types';
 import { homedir } from 'os';
 import { join } from 'path';
 import { pathToFileURL } from 'node:url';
+import { readFile } from 'node:fs/promises';
+
+const isDevServer = Boolean(process.env.VITE_DEV_SERVER_URL);
 
 function uint8ArrayToBase64(uint8Array: Uint8Array): string {
     const binary: string = Array.from(uint8Array, byte => String.fromCharCode(byte)).join('');
@@ -65,7 +69,14 @@ export function registerFileHandlers() {
 
     ipcMain.handle('load-audio-file', async (_, filePath): Promise<string> => {
         try {
-            // Returning a file:// URL lets the browser stream from disk instead of decoding a huge base64 payload.
+            if (isDevServer) {
+                // In dev the renderer runs on http://, so Chrome blocks file://. Use data URI as fallback.
+                const audioData = await readFile(filePath);
+                const mimeType = lookup(filePath) || 'audio/mpeg';
+                return `data:${mimeType};base64,${audioData.toString('base64')}`;
+            }
+
+            // In packaged app we can stream directly from disk.
             return pathToFileURL(filePath).toString();
         } catch (error) {
             console.error('Error loading audio file:', error);
