@@ -1,10 +1,9 @@
 import { AudioFile } from '@/types';
 import { ipcMain, dialog, OpenDialogReturnValue, OpenDialogOptions } from 'electron';
-import { lookup } from 'mime-types';
-import { IPicture, parseBuffer } from 'music-metadata';
-import { readFile } from 'node:fs/promises';
+import { IPicture, parseFile } from 'music-metadata';
 import { homedir } from 'os';
 import { join } from 'path';
+import { pathToFileURL } from 'node:url';
 
 function uint8ArrayToBase64(uint8Array: Uint8Array): string {
     const binary: string = Array.from(uint8Array, byte => String.fromCharCode(byte)).join('');
@@ -15,8 +14,7 @@ const isAudioFile = (file: AudioFile | null): file is AudioFile => file !== null
 
 async function loadAudioMetadata(filePath: string): Promise<AudioFile | null> {
     try {
-        const fileBuffer: Buffer = await readFile(filePath);
-        const metadata = await parseBuffer(fileBuffer, filePath);
+        const metadata = await parseFile(filePath);
 
         let imageBase64 = null;
 
@@ -67,9 +65,8 @@ export function registerFileHandlers() {
 
     ipcMain.handle('load-audio-file', async (_, filePath): Promise<string> => {
         try {
-            const audioData: Buffer = await readFile(filePath);
-            const mimeType: string = lookup(filePath) || 'audio/mpeg';
-            return `data:${mimeType};base64,${audioData.toString('base64')}`;
+            // Returning a file:// URL lets the browser stream from disk instead of decoding a huge base64 payload.
+            return pathToFileURL(filePath).toString();
         } catch (error) {
             console.error('Error loading audio file:', error);
             throw error;

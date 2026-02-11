@@ -29,6 +29,7 @@ const isRepeatMode = (value: unknown): value is RepeatMode =>
  */
 export default function useAudioPlayer() {
 	const audioRef = useRef<HTMLAudioElement | null>(null);
+	const loadRequestRef = useRef<number>(0);
 	const [files, setFiles] = useState<AudioFile[]>([]);
 	const [currentIndex, setCurrentIndex] = useState<number>(-1);
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -43,7 +44,9 @@ export default function useAudioPlayer() {
 
 	// Ensure the audio element exists exactly once.
 	if (!audioRef.current) {
-		audioRef.current = new Audio();
+		const audio = new Audio();
+		audio.preload = "auto";
+		audioRef.current = audio;
 	}
 
 	const hasTracks = files.length > 0;
@@ -328,17 +331,28 @@ export default function useAudioPlayer() {
 			setIsPlaying(false);
 			setProgress(0);
 			setDuration(0);
+			audio?.pause();
 			return;
 		}
 
 		const loadAndPlay = async () => {
+			const requestId = ++loadRequestRef.current;
+
 			try {
+				// Stop current playback before swapping source to avoid overlap artifacts.
+				audio.pause();
+
 				const src: string = await window.ipcRenderer.invoke(
 					"load-audio-file",
 					track.path
 				);
+
+				// Ignore stale async loads when user jumps quickly across tracks.
+				if (requestId !== loadRequestRef.current) return;
+
 				audio.src = src;
 				audio.currentTime = 0;
+				audio.load();
 				setProgress(0);
 				await audio.play();
 				setIsPlaying(true);
