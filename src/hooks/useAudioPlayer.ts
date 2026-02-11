@@ -3,6 +3,7 @@ import { AudioFile, RepeatMode } from "@/types";
 
 const QUEUE_STORAGE_KEY = "m-player:queue";
 const SETTINGS_STORAGE_KEY = "m-player:settings";
+const POSITIONS_STORAGE_KEY = "m-player:positions";
 
 type PersistedQueue = {
 	paths: string[];
@@ -15,6 +16,8 @@ type PersistedSettings = {
 	shuffleEnabled: boolean;
 	repeatMode: RepeatMode;
 };
+
+type PositionMap = Record<string, number>;
 
 const clampVolume = (value: number): number => Math.min(1, Math.max(0, value));
 
@@ -30,6 +33,7 @@ const isRepeatMode = (value: unknown): value is RepeatMode =>
 export default function useAudioPlayer() {
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 	const loadRequestRef = useRef<number>(0);
+	const positionsRef = useRef<PositionMap>({});
 	const [files, setFiles] = useState<AudioFile[]>([]);
 	const [currentIndex, setCurrentIndex] = useState<number>(-1);
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -51,6 +55,20 @@ export default function useAudioPlayer() {
 
 	const hasTracks = files.length > 0;
 	const currentFile = currentIndex >= 0 ? files[currentIndex] : undefined;
+
+	// Restore saved positions once at startup.
+	useEffect(() => {
+		try {
+			const raw = window.localStorage.getItem(POSITIONS_STORAGE_KEY);
+			if (!raw) return;
+			const parsed = JSON.parse(raw) as PositionMap;
+			if (parsed && typeof parsed === "object") {
+				positionsRef.current = parsed;
+			}
+		} catch (err) {
+			console.error("Unable to restore track positions", err);
+		}
+	}, []);
 
 	const addFiles = useCallback((newFiles: AudioFile[]) => {
 		setFiles((prev) => {
@@ -268,6 +286,20 @@ export default function useAudioPlayer() {
 
 		const handleTimeUpdate = () => setProgress(audio.currentTime);
 		const handleLoadedMetadata = () => setDuration(audio.duration || 0);
+		const handlePositionPersist = () => {
+			if (!currentFile) return;
+			const seconds = Math.floor(audio.currentTime);
+			const existing = positionsRef.current[currentFile.path];
+			if (existing === seconds) return;
+			positionsRef.current = {
+				...positionsRef.current,
+				[currentFile.path]: seconds,
+			};
+			window.localStorage.setItem(
+				POSITIONS_STORAGE_KEY,
+				JSON.stringify(positionsRef.current)
+			);
+		};
 		const handleEnded = () => {
 			if (!hasTracks) return;
 
@@ -302,6 +334,7 @@ export default function useAudioPlayer() {
 
 		audio.addEventListener("timeupdate", handleTimeUpdate);
 		audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+		audio.addEventListener("timeupdate", handlePositionPersist);
 		audio.addEventListener("ended", handleEnded);
 		audio.addEventListener("play", handlePlay);
 		audio.addEventListener("pause", handlePause);
@@ -309,6 +342,7 @@ export default function useAudioPlayer() {
 		return () => {
 			audio.removeEventListener("timeupdate", handleTimeUpdate);
 			audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+			audio.removeEventListener("timeupdate", handlePositionPersist);
 			audio.removeEventListener("ended", handleEnded);
 			audio.removeEventListener("play", handlePlay);
 			audio.removeEventListener("pause", handlePause);
@@ -354,6 +388,23 @@ export default function useAudioPlayer() {
 				audio.currentTime = 0;
 				audio.load();
 				setProgress(0);
+
+				// Wait for metadata before seeking to a saved position.
+				if (audio.readyState < 1) {
+					await new Promise<void>((resolve) =>
+						audio.addEventListener("loadedmetadata", () => resolve(), {
+							once: true,
+						})
+					);
+				}
+
+				const savedPosition = positionsRef.current[track.path];
+				if (savedPosition) {
+					const safePosition = Math.min(savedPosition, audio.duration || savedPosition);
+					audio.currentTime = safePosition;
+					setProgress(safePosition);
+				}
+
 				await audio.play();
 				setIsPlaying(true);
 			} catch (err) {

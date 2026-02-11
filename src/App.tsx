@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { JSX } from "react/jsx-runtime";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
@@ -58,6 +58,83 @@ export default function App(): JSX.Element {
 	const emptyMessage = normalizedQuery
 		? "No tracks found for your search."
 		: "No tracks loaded yet. Use the left menu to add music files.";
+
+	// Global keyboard shortcuts (ignored while typing in inputs/textareas/contentEditable).
+	useEffect(() => {
+		const isTypingElement = (target: EventTarget | null) => {
+			if (!(target instanceof HTMLElement)) return false;
+			const tag = target.tagName.toLowerCase();
+			return (
+				tag === "input" ||
+				tag === "textarea" ||
+				tag === "select" ||
+				target.isContentEditable
+			);
+		};
+
+		const handleKeyDown = (event: KeyboardEvent) => {
+			if (isTypingElement(event.target)) return;
+
+			switch (event.key) {
+				case " ":
+					event.preventDefault();
+					togglePlayPause();
+					break;
+				case "ArrowRight":
+					event.preventDefault();
+					seek(progress + 5);
+					break;
+				case "ArrowLeft":
+					event.preventDefault();
+					seek(Math.max(0, progress - 5));
+					break;
+				case "ArrowUp":
+					event.preventDefault();
+					setVolumeLevel(Math.min(1, volume + 0.05));
+					break;
+				case "ArrowDown":
+					event.preventDefault();
+					setVolumeLevel(Math.max(0, volume - 0.05));
+					break;
+				case "m":
+				case "M":
+					toggleMute();
+					break;
+				case "s":
+				case "S":
+					toggleShuffle();
+					break;
+				case "r":
+				case "R":
+					toggleRepeatMode();
+					break;
+				case "n":
+				case "N":
+					playNext();
+					break;
+				case "p":
+				case "P":
+					playPrevious();
+					break;
+				default:
+					break;
+			}
+		};
+
+		window.addEventListener("keydown", handleKeyDown);
+		return () => window.removeEventListener("keydown", handleKeyDown);
+	}, [
+		playNext,
+		playPrevious,
+		progress,
+		seek,
+		setVolumeLevel,
+		toggleMute,
+		togglePlayPause,
+		toggleRepeatMode,
+		toggleShuffle,
+		volume,
+	]);
 
 	return (
 		<div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
