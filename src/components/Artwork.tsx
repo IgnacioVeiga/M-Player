@@ -29,7 +29,7 @@ export default function Artwork({
 					className={imageClasses}
 				/>
 			) : (
-				<div className="h-full w-auto aspect-[1/1] flex items-center justify-center text-center text-xs text-white bg-neutral-700 rounded-2xl">
+				<div className="h-full w-auto aspect-square flex items-center justify-center text-center text-xs text-white bg-neutral-700 rounded-2xl">
 					No Image
 				</div>
 			)}

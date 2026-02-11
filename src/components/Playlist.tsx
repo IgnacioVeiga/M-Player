@@ -31,7 +31,7 @@ export default function Playlist({
 	};
 
 	return (
-		<div className="flex flex-col mt-[72px]">
+		<div className="flex flex-col mt-18">
 			<div className="flex justify-around p-2 border-b border-neutral-800">
 				{Object.values(Tab).map((tab) => (
 					<button

@@ -20,7 +20,7 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: Side
 		<>
 			{/* Sidebar */}
 			<div
-				className={`fixed top-0 h-full w-[250px] bg-[#202020] transform transition-transform duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] z-10 ${
+				className={`fixed top-0 h-full w-62.5 bg-[#202020] transform transition-transform duration-200 ease-in-out z-10 ${
 					isOpen ? "translate-x-0" : "-translate-x-full"
 				}`}
 			>
