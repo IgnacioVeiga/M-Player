@@ -2,12 +2,15 @@ import { FileListProps } from "@/types";
 import Artwork from "./Artwork";
 import { JSX } from "react/jsx-runtime";
 
-export default function FileList({ files, file, onFileSelect }: FileListProps): JSX.Element {
+export default function FileList({
+	files,
+	file,
+	onFileSelect,
+	emptyMessage = "No tracks loaded yet. Use the left menu to add music files.",
+}: FileListProps): JSX.Element {
 	if (files.length === 0) {
 		return (
-			<div className="p-6 text-center text-neutral-400">
-				No tracks loaded yet. Use the left menu to add music files.
-			</div>
+			<div className="p-6 text-center text-neutral-400">{emptyMessage}</div>
 		);
 	}
 

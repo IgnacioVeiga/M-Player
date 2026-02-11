@@ -1,14 +1,44 @@
 import { AudioFile } from '@/types';
 import { ipcMain, dialog, OpenDialogReturnValue, OpenDialogOptions } from 'electron';
 import { lookup } from 'mime-types';
-import { IAudioMetadata, IPicture, parseBuffer } from 'music-metadata';
-import { readFileSync } from 'fs'
+import { IPicture, parseBuffer } from 'music-metadata';
+import { readFile } from 'node:fs/promises';
 import { homedir } from 'os';
 import { join } from 'path';
 
 function uint8ArrayToBase64(uint8Array: Uint8Array): string {
     const binary: string = Array.from(uint8Array, byte => String.fromCharCode(byte)).join('');
     return Buffer.from(binary, 'binary').toString('base64');
+}
+
+const isAudioFile = (file: AudioFile | null): file is AudioFile => file !== null;
+
+async function loadAudioMetadata(filePath: string): Promise<AudioFile | null> {
+    try {
+        const fileBuffer: Buffer = await readFile(filePath);
+        const metadata = await parseBuffer(fileBuffer, filePath);
+
+        let imageBase64 = null;
+
+        if (metadata.common.picture?.length) {
+            const picture: IPicture = metadata.common.picture[0];
+            const base64Image: string = uint8ArrayToBase64(picture.data);
+            imageBase64 = `data:${picture.format};base64,${base64Image}`;
+        }
+
+        return {
+            title: metadata.common.title || 'Unknown Title',
+            artist: metadata.common.artist || 'Unknown Artist',
+            album: metadata.common.album || 'Unknown Album',
+            duration: metadata.format.duration || 0,
+            lyrics: metadata.common.lyrics || [],
+            path: filePath,
+            image: imageBase64 || null
+        };
+    } catch (error) {
+        console.error(`Error reading metadata for "${filePath}":`, error);
+        return null;
+    }
 }
 
 export function registerFileHandlers() {
@@ -26,37 +56,18 @@ export function registerFileHandlers() {
 
         if (canceled) return null;
 
-        return await Promise.all(
-            filePaths.map(async (filePath: string): Promise<AudioFile> => {
-                const metadata: IAudioMetadata = await parseBuffer(
-                    readFileSync(filePath),
-                    filePath
-                );
+        const metadata = await Promise.all(filePaths.map((filePath) => loadAudioMetadata(filePath)));
+        return metadata.filter(isAudioFile);
+    });
 
-                let imageBase64 = null;
-
-                if (metadata.common.picture?.length) {
-                    const picture: IPicture = metadata.common.picture[0];
-                    const base64Image: string = uint8ArrayToBase64(picture.data);
-                    imageBase64 = `data:${picture.format};base64,${base64Image}`;
-                }
-
-                return {
-                    title: metadata.common.title || 'Unknown Title',
-                    artist: metadata.common.artist || 'Unknown Artist',
-                    album: metadata.common.album || 'Unknown Album',
-                    duration: metadata.format.duration || 0,
-                    lyrics: metadata.common.lyrics || [],
-                    path: filePath,
-                    image: imageBase64 || null
-                };
-            })
-        );
+    ipcMain.handle('load-audio-metadata', async (_, filePaths: string[]): Promise<AudioFile[]> => {
+        const metadata = await Promise.all(filePaths.map((filePath) => loadAudioMetadata(filePath)));
+        return metadata.filter(isAudioFile);
     });
 
     ipcMain.handle('load-audio-file', async (_, filePath): Promise<string> => {
         try {
-            const audioData: Buffer = readFileSync(filePath);
+            const audioData: Buffer = await readFile(filePath);
             const mimeType: string = lookup(filePath) || 'audio/mpeg';
             return `data:${mimeType};base64,${audioData.toString('base64')}`;
         } catch (error) {

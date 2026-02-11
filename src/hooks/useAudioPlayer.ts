@@ -1,5 +1,25 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { AudioFile } from "@/types";
+import { AudioFile, RepeatMode } from "@/types";
+
+const QUEUE_STORAGE_KEY = "m-player:queue";
+const SETTINGS_STORAGE_KEY = "m-player:settings";
+
+type PersistedQueue = {
+	paths: string[];
+	currentIndex: number;
+};
+
+type PersistedSettings = {
+	volume: number;
+	isMuted: boolean;
+	shuffleEnabled: boolean;
+	repeatMode: RepeatMode;
+};
+
+const clampVolume = (value: number): number => Math.min(1, Math.max(0, value));
+
+const isRepeatMode = (value: unknown): value is RepeatMode =>
+	value === "off" || value === "all" || value === "one";
 
 /**
  * Centralized audio/queue controller.
@@ -14,6 +34,12 @@ export default function useAudioPlayer() {
 	const [isPlaying, setIsPlaying] = useState<boolean>(false);
 	const [progress, setProgress] = useState<number>(0);
 	const [duration, setDuration] = useState<number>(0);
+	const [volume, setVolume] = useState<number>(1);
+	const [isMuted, setIsMuted] = useState<boolean>(false);
+	const [shuffleEnabled, setShuffleEnabled] = useState<boolean>(false);
+	const [repeatMode, setRepeatMode] = useState<RepeatMode>("all");
+	const [hasRestoredQueue, setHasRestoredQueue] = useState<boolean>(false);
+	const [hasRestoredSettings, setHasRestoredSettings] = useState<boolean>(false);
 
 	// Ensure the audio element exists exactly once.
 	if (!audioRef.current) {
@@ -21,7 +47,7 @@ export default function useAudioPlayer() {
 	}
 
 	const hasTracks = files.length > 0;
-	const currentFile = files[currentIndex];
+	const currentFile = currentIndex >= 0 ? files[currentIndex] : undefined;
 
 	const addFiles = useCallback((newFiles: AudioFile[]) => {
 		setFiles((prev) => {
@@ -47,9 +73,46 @@ export default function useAudioPlayer() {
 		[files]
 	);
 
+	const setVolumeLevel = useCallback((nextVolume: number) => {
+		const safeVolume = clampVolume(nextVolume);
+		setVolume(safeVolume);
+		setIsMuted(safeVolume === 0);
+	}, []);
+
+	const toggleMute = useCallback(() => {
+		setIsMuted((prev) => !prev);
+	}, []);
+
+	const toggleShuffle = useCallback(() => {
+		setShuffleEnabled((prev) => !prev);
+	}, []);
+
+	const toggleRepeatMode = useCallback(() => {
+		setRepeatMode((prev) => {
+			if (prev === "all") return "one";
+			if (prev === "one") return "off";
+			return "all";
+		});
+	}, []);
+
+	const getRandomIndex = useCallback(
+		(currentTrackIndex: number) => {
+			if (files.length <= 1) return currentTrackIndex >= 0 ? currentTrackIndex : 0;
+			let nextIndex = currentTrackIndex;
+			while (nextIndex === currentTrackIndex) {
+				nextIndex = Math.floor(Math.random() * files.length);
+			}
+			return nextIndex;
+		},
+		[files.length]
+	);
+
 	const play = useCallback(async () => {
 		if (!audioRef.current || !currentFile) return;
 		try {
+			if (audioRef.current.ended) {
+				audioRef.current.currentTime = 0;
+			}
 			await audioRef.current.play();
 			setIsPlaying(true);
 		} catch (err) {
@@ -73,9 +136,10 @@ export default function useAudioPlayer() {
 		if (!hasTracks) return;
 		setCurrentIndex((prev) => {
 			if (prev < 0) return 0;
+			if (shuffleEnabled) return getRandomIndex(prev);
 			return (prev + 1) % files.length;
 		});
-	}, [files.length, hasTracks]);
+	}, [files.length, getRandomIndex, hasTracks, shuffleEnabled]);
 
 	const playPrevious = useCallback(() => {
 		if (!hasTracks) return;
@@ -95,14 +159,141 @@ export default function useAudioPlayer() {
 		[duration]
 	);
 
-	// Wire audio element events (runs once, but re-binds when queue length changes so "ended" sees fresh length).
+	// Restore playback settings on startup.
+	useEffect(() => {
+		try {
+			const rawSettings = window.localStorage.getItem(SETTINGS_STORAGE_KEY);
+			if (!rawSettings) {
+				setHasRestoredSettings(true);
+				return;
+			}
+
+			const parsed = JSON.parse(rawSettings) as Partial<PersistedSettings>;
+			if (typeof parsed.volume === "number") setVolume(clampVolume(parsed.volume));
+			if (typeof parsed.isMuted === "boolean") setIsMuted(parsed.isMuted);
+			if (typeof parsed.shuffleEnabled === "boolean") {
+				setShuffleEnabled(parsed.shuffleEnabled);
+			}
+			if (isRepeatMode(parsed.repeatMode)) setRepeatMode(parsed.repeatMode);
+		} catch (err) {
+			console.error("Unable to restore player settings", err);
+		} finally {
+			setHasRestoredSettings(true);
+		}
+	}, []);
+
+	// Restore queue from file paths (metadata is rebuilt through IPC).
+	useEffect(() => {
+		let isActive = true;
+
+		const restoreQueue = async () => {
+			try {
+				const rawQueue = window.localStorage.getItem(QUEUE_STORAGE_KEY);
+				if (!rawQueue) return;
+
+				const parsed = JSON.parse(rawQueue) as Partial<PersistedQueue>;
+				if (!Array.isArray(parsed.paths) || parsed.paths.length === 0) return;
+
+				const restoredFiles: AudioFile[] = await window.ipcRenderer.invoke(
+					"load-audio-metadata",
+					parsed.paths
+				);
+
+				if (!isActive || restoredFiles.length === 0) return;
+
+				setFiles(restoredFiles);
+
+				const requestedIndex =
+					typeof parsed.currentIndex === "number" ? parsed.currentIndex : 0;
+				const safeIndex = Math.min(
+					Math.max(requestedIndex, 0),
+					restoredFiles.length - 1
+				);
+				setCurrentIndex(safeIndex);
+			} catch (err) {
+				console.error("Unable to restore queue", err);
+			} finally {
+				if (isActive) setHasRestoredQueue(true);
+			}
+		};
+
+		restoreQueue();
+
+		return () => {
+			isActive = false;
+		};
+	}, []);
+
+	// Persist queue references and player preferences.
+	useEffect(() => {
+		if (!hasRestoredQueue) return;
+
+		const queuePayload: PersistedQueue = {
+			paths: files.map((file) => file.path),
+			currentIndex,
+		};
+		window.localStorage.setItem(QUEUE_STORAGE_KEY, JSON.stringify(queuePayload));
+	}, [currentIndex, files, hasRestoredQueue]);
+
+	useEffect(() => {
+		if (!hasRestoredSettings) return;
+
+		const settingsPayload: PersistedSettings = {
+			volume,
+			isMuted,
+			shuffleEnabled,
+			repeatMode,
+		};
+		window.localStorage.setItem(
+			SETTINGS_STORAGE_KEY,
+			JSON.stringify(settingsPayload)
+		);
+	}, [hasRestoredSettings, isMuted, repeatMode, shuffleEnabled, volume]);
+
+	// Keep HTMLAudioElement in sync with UI audio settings.
+	useEffect(() => {
+		const audio = audioRef.current;
+		if (!audio) return;
+		audio.volume = volume;
+		audio.muted = isMuted;
+	}, [isMuted, volume]);
+
+	// Bind audio events and keep "ended" behavior in sync with current playback mode.
 	useEffect(() => {
 		const audio = audioRef.current;
 		if (!audio) return;
 
 		const handleTimeUpdate = () => setProgress(audio.currentTime);
 		const handleLoadedMetadata = () => setDuration(audio.duration || 0);
-		const handleEnded = () => playNext();
+		const handleEnded = () => {
+			if (!hasTracks) return;
+
+			if (repeatMode === "one") {
+				audio.currentTime = 0;
+				audio.play().catch((err) => {
+					console.error("Unable to replay current track", err);
+				});
+				return;
+			}
+
+			if (shuffleEnabled) {
+				setCurrentIndex((prev) => getRandomIndex(prev));
+				return;
+			}
+
+			const isLastTrack = currentIndex >= files.length - 1;
+			if (!isLastTrack) {
+				setCurrentIndex((prev) => prev + 1);
+				return;
+			}
+
+			if (repeatMode === "all") {
+				setCurrentIndex(0);
+				return;
+			}
+
+			setIsPlaying(false);
+		};
 		const handlePlay = () => setIsPlaying(true);
 		const handlePause = () => setIsPlaying(false);
 
@@ -119,12 +310,19 @@ export default function useAudioPlayer() {
 			audio.removeEventListener("play", handlePlay);
 			audio.removeEventListener("pause", handlePause);
 		};
-	}, [playNext, files.length]);
+	}, [
+		currentIndex,
+		files.length,
+		getRandomIndex,
+		hasTracks,
+		repeatMode,
+		shuffleEnabled,
+	]);
 
 	// Load audio when the current selection changes.
 	useEffect(() => {
 		const audio = audioRef.current;
-		const track = files[currentIndex];
+		const track = currentFile;
 
 		if (!audio || !track) {
 			setIsPlaying(false);
@@ -151,7 +349,7 @@ export default function useAudioPlayer() {
 		};
 
 		loadAndPlay();
-	}, [currentIndex, files]);
+	}, [currentFile]);
 
 	return {
 		files,
@@ -161,11 +359,19 @@ export default function useAudioPlayer() {
 		progress,
 		duration,
 		hasTracks,
+		volume,
+		isMuted,
+		shuffleEnabled,
+		repeatMode,
 		addFiles,
 		selectFile,
 		playNext,
 		playPrevious,
 		togglePlayPause,
 		seek,
+		setVolumeLevel,
+		toggleMute,
+		toggleShuffle,
+		toggleRepeatMode,
 	};
 }

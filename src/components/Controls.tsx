@@ -8,7 +8,15 @@ export default function Controls({
 	onPrevious,
 	onNext,
 	onPlayPause,
+	onToggleMute,
+	onVolumeChange,
+	onToggleShuffle,
+	onToggleRepeat,
 	isPlaying,
+	isMuted,
+	volume,
+	shuffleEnabled,
+	repeatMode,
 	progress,
 	duration,
 	onProgressChange,
@@ -23,6 +31,16 @@ export default function Controls({
 			.padStart(2, "0");
 		return `${minutes}:${seconds}`;
 	};
+
+	const volumeIcon = isMuted || volume === 0
+		? "volume_off"
+		: volume < 0.5
+			? "volume_down"
+			: "volume_up";
+	const repeatIcon = repeatMode === "one" ? "repeat_one" : "repeat";
+	const repeatClass =
+		repeatMode === "off" ? "text-white" : "text-primary";
+	const shuffleClass = shuffleEnabled ? "text-primary" : "text-white";
 
 	return (
 		<div className="fixed bottom-0 w-full">
@@ -82,13 +100,37 @@ export default function Controls({
 
 				{/* Right controls */}
 				<div className="flex items-center gap-2">
-					<button className="text-white cursor-pointer hover:scale-105 text-2xl transition">
-						<span className="material-icons-outlined">volume_up</span>
+					<button
+						disabled={!hasTrack}
+						onClick={onToggleMute}
+						className="text-white cursor-pointer hover:scale-105 text-2xl transition disabled:opacity-50 disabled:cursor-not-allowed"
+					>
+						<span className="material-icons-outlined">{volumeIcon}</span>
 					</button>
-					<button className="text-white cursor-pointer hover:scale-105 text-2xl transition">
-						<span className="material-icons">repeat</span>
+					<input
+						type="range"
+						min="0"
+						max="1"
+						step="0.01"
+						value={isMuted ? 0 : volume}
+						onChange={(event) => onVolumeChange(parseFloat(event.target.value))}
+						disabled={!hasTrack}
+						className="w-20 accent-primary disabled:opacity-50"
+					/>
+					<button
+						disabled={!hasTrack}
+						onClick={onToggleRepeat}
+						className={`${repeatClass} cursor-pointer hover:scale-105 text-2xl transition disabled:opacity-50 disabled:cursor-not-allowed`}
+						title={`Repeat mode: ${repeatMode}`}
+					>
+						<span className="material-icons">{repeatIcon}</span>
 					</button>
-					<button className="text-white cursor-pointer hover:scale-105 text-2xl transition">
+					<button
+						disabled={!hasTrack}
+						onClick={onToggleShuffle}
+						className={`${shuffleClass} cursor-pointer hover:scale-105 text-2xl transition disabled:opacity-50 disabled:cursor-not-allowed`}
+						title={`Shuffle: ${shuffleEnabled ? "on" : "off"}`}
+					>
 						<span className="material-icons">shuffle</span>
 					</button>
 				</div>

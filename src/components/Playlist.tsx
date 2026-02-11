@@ -4,7 +4,12 @@ import Lyrics from "./Lyrics";
 import { PlaylistProps, Tab } from "@/types";
 import { JSX } from "react/jsx-runtime";
 
-export default function Playlist({ files, file, onFileSelect }: PlaylistProps): JSX.Element {
+export default function Playlist({
+	files,
+	file,
+	onFileSelect,
+	emptyMessage,
+}: PlaylistProps): JSX.Element {
 	const [activeTab, setActiveTab] = useState(Tab.UP_NEXT);
 
 	const renderContent = () => {
@@ -19,6 +24,7 @@ export default function Playlist({ files, file, onFileSelect }: PlaylistProps): 
 						files={files}
 						file={file}
 						onFileSelect={onFileSelect}
+						emptyMessage={emptyMessage}
 					/>
 				);
 		}

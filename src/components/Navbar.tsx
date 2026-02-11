@@ -1,7 +1,11 @@
 import { NavbarProps } from "@/types";
 import { JSX } from "react/jsx-runtime";
 
-export default function Navbar({ onMenuClick }: NavbarProps): JSX.Element {
+export default function Navbar({
+	onMenuClick,
+	searchQuery,
+	onSearchChange,
+}: NavbarProps): JSX.Element {
 	const userIcon = null;
 
 	return (
@@ -18,6 +22,8 @@ export default function Navbar({ onMenuClick }: NavbarProps): JSX.Element {
 
 			<input
 				type="text"
+				value={searchQuery}
+				onChange={(event) => onSearchChange(event.target.value)}
 				className="w-[45%] px-4 py-2 rounded-full bg-[#242424] text-[#ddd] text-sm border-none placeholder-[#888] hover:bg-[#2c2c2c] transition"
 				placeholder="Search music..."
 			/>
