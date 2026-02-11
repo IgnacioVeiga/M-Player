@@ -9,11 +9,13 @@ export default function Controls({
 	onNext,
 	onPlayPause,
 	isPlaying,
-	audioRef,
 	progress,
 	duration,
 	onProgressChange,
 }: ControlsProps): JSX.Element {
+	const hasTrack = Boolean(file);
+
+	// Tiny helper to keep minutes:seconds readable.
 	const formatTime = (time: number) => {
 		const minutes = Math.floor(time / 60);
 		const seconds = Math.floor(time % 60)
@@ -29,23 +31,20 @@ export default function Controls({
 				duration={duration}
 				onProgressChange={onProgressChange}
 			/>
-			<audio
-				ref={audioRef}
-				hidden
-			/>
-
 			<footer className="flex items-center justify-between bg-[#121212] p-3">
 				{/* Left controls */}
 				<div className="flex items-center gap-2">
 					<button
+						disabled={!hasTrack}
 						onClick={onPrevious}
-						className="text-white cursor-pointer text-2xl hover:scale-105 transition"
+						className="text-white cursor-pointer text-2xl hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						<span className="material-icons">skip_previous</span>
 					</button>
 					<button
+						disabled={!hasTrack}
 						onClick={onPlayPause}
-						className="text-white cursor-pointer text-2xl hover:scale-105 transition"
+						className="text-white cursor-pointer text-2xl hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						{isPlaying ? (
 							<span className="material-icons">pause</span>
@@ -54,8 +53,9 @@ export default function Controls({
 						)}
 					</button>
 					<button
+						disabled={!hasTrack}
 						onClick={onNext}
-						className="text-white cursor-pointer text-2xl hover:scale-105 transition"
+						className="text-white cursor-pointer text-2xl hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						<span className="material-icons">skip_next</span>
 					</button>

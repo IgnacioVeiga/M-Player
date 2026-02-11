@@ -19,15 +19,14 @@ export interface SidebarItem {
 }
 
 export type ControlsProps = {
-	file: AudioFile;
-	onPrevious: () => void;
-	onNext: () => void;
-	onPlayPause: () => void;
-	isPlaying: boolean;
-	audioRef: React.RefObject<HTMLAudioElement>;
-	progress: number;
-	duration: number;
-	onProgressChange: (value: number) => void;
+    file?: AudioFile;
+    onPrevious: () => void;
+    onNext: () => void;
+    onPlayPause: () => void;
+    isPlaying: boolean;
+    progress: number;
+    duration: number;
+    onProgressChange: (value: number) => void;
 };
     
 export interface FileListProps {
@@ -52,7 +51,7 @@ export type NavbarProps = {
 
 export interface PlaylistProps {
     files: AudioFile[];
-    file: AudioFile;
+    file?: AudioFile;
     onFileSelect: (file: AudioFile) => void;
 }
 

@@ -1,10 +1,18 @@
 import { ArtworkSize, AudioFile } from "@/types";
 import { JSX } from "react/jsx-runtime";
 
-export default function Artwork({ file, size = 'large' }: { file: AudioFile; size?: ArtworkSize }): JSX.Element {
+export default function Artwork({
+	file,
+	size = "large",
+}: {
+	file?: AudioFile;
+	size?: ArtworkSize;
+}): JSX.Element {
 	// Default to "large" if size is not provided
 	const isThumbnail = size === "thumbnail";
-	const imageClasses = isThumbnail ? "h-full" : "max-w-[80vw] max-h-[90%] rounded-2xl";
+	const imageClasses = isThumbnail
+		? "h-full"
+		: "max-w-[80vw] max-h-[90%] rounded-2xl";
 
 	return (
 		<div

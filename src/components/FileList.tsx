@@ -3,6 +3,14 @@ import Artwork from "./Artwork";
 import { JSX } from "react/jsx-runtime";
 
 export default function FileList({ files, file, onFileSelect }: FileListProps): JSX.Element {
+	if (files.length === 0) {
+		return (
+			<div className="p-6 text-center text-neutral-400">
+				No tracks loaded yet. Use the left menu to add music files.
+			</div>
+		);
+	}
+
 	return (
 		<ul className="list-none p-0 m-0 overflow-y-auto overflow-x-hidden">
 			{files.map((f, index) => (

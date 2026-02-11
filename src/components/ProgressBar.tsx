@@ -8,6 +8,9 @@ export default function ProgressBar({ progress, duration, onProgressChange }: Pr
         onProgressChange(newValue);
     };
 
+    const percentage = duration ? (progress / duration) * 100 : 0;
+    const clampedValue = duration ? Math.min(progress, duration) : 0;
+
     return (
         <div className='progress-bar'>
             <input
@@ -15,9 +18,10 @@ export default function ProgressBar({ progress, duration, onProgressChange }: Pr
                 min="0"
                 max={duration}
                 step="0.01"
-                value={progress}
+                value={clampedValue}
                 onChange={handleChange}
-                style={{ '--progress': `${(progress / duration) * 100}%` } as React.CSSProperties}
+                disabled={!duration}
+                style={{ '--progress': `${percentage}%` } as React.CSSProperties}
             />
         </div>
     );
