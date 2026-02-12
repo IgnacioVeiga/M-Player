@@ -38,7 +38,6 @@ export default function App(): JSX.Element {
 		toggleRepeatMode,
 	} = useAudioPlayer();
 
-	const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 	const normalizedQuery = searchQuery.trim().toLowerCase();
 
 	// Keep sidebar pinned on desktop, toggle on mobile.
@@ -186,6 +185,7 @@ export default function App(): JSX.Element {
 					isOpen={sidebarOpen}
 					toggleSidebar={handleMenuClick}
 					width={sidebarWidth}
+					isDesktop={isDesktop}
 				/>
 
 				<main className={`pt-[76px] pb-[120px] px-3 sm:px-5 lg:px-6 ${mainScrollClass}`}>

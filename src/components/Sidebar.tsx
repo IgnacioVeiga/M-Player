@@ -6,7 +6,8 @@ export default function Sidebar({
 	toggleSidebar,
 	onFilesSelected,
 	width,
-}: SidebarProps & { width?: number }): JSX.Element {
+	isDesktop,
+}: SidebarProps & { width?: number; isDesktop?: boolean }): JSX.Element {
 	const handleSelectFiles = async () => {
 		const selectedFiles = await window.ipcRenderer.invoke("select-audio-files");
 		if (selectedFiles) {
@@ -22,20 +23,19 @@ export default function Sidebar({
 		{ icon: "file_upload", label: "Upload files", onClick: handleSelectFiles },
 	];
 
-	const sidebarTransform = isOpen ? "translate-x-0" : "-translate-x-full";
-	const isVisible = isOpen && (width === undefined || width > 0);
+	const sidebarTransform =
+		isDesktop || isOpen ? "translate-x-0" : "-translate-x-full";
 
 	return (
 		<>
 			{/* Sidebar */}
 			<div
-				className={`glass-panel w-[260px] transition-transform duration-200 ease-in-out z-20 border-r border-[#2a2a2a]
-					fixed top-[76px] h-[calc(100vh-76px)] lg:sticky lg:top-[76px] lg:shadow-none
-					${sidebarTransform} lg:${sidebarTransform}`}
+				className={`glass-panel transition-transform duration-200 ease-in-out z-30 border-r border-[#2a2a2a]
+					fixed top-[64px] bottom-0 h-[calc(100vh-64px)]
+					lg:sticky lg:top-[64px] lg:h-[calc(100vh-64px)] lg:shadow-none
+					${sidebarTransform}`}
 				style={{
-					width: width ?? 260,
-					visibility: isVisible ? "visible" : "hidden",
-					pointerEvents: isVisible ? "auto" : "none",
+					width: isDesktop ? width ?? 260 : 280,
 				}}
 			>
 				<div className="px-4 pt-6 pb-4 flex flex-col gap-2 h-full overflow-hidden">
