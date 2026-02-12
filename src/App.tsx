@@ -10,6 +10,7 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 export default function App(): JSX.Element {
 	// UI-only state (not tied to audio)
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+	const [isSidebarPinned, setIsSidebarPinned] = useState<boolean>(true);
 	const [isDesktop, setIsDesktop] = useState<boolean>(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -46,12 +47,12 @@ export default function App(): JSX.Element {
 		const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
 			const desktop = "matches" in e ? e.matches : e.matches;
 			setIsDesktop(desktop);
-			setIsSidebarOpen(desktop);
+			setIsSidebarOpen(desktop ? isSidebarPinned : false);
 		};
 		handleChange(mq);
 		mq.addEventListener("change", handleChange as EventListener);
 		return () => mq.removeEventListener("change", handleChange as EventListener);
-	}, []);
+	}, [isSidebarPinned]);
 
 	// Keep filtering logic in App so Playlist remains a pure rendering component.
 	const filteredFiles = useMemo(() => {
@@ -150,10 +151,23 @@ export default function App(): JSX.Element {
 		volume,
 	]);
 
+	const handleMenuClick = () => {
+		if (isDesktop) {
+			setIsSidebarPinned((prev) => !prev);
+			setIsSidebarOpen((prev) => !prev);
+		} else {
+			setIsSidebarOpen((prev) => !prev);
+		}
+	};
+
+	const mainScrollClass = isDesktop
+		? "h-[calc(100vh-76px)] overflow-hidden"
+		: "min-h-[calc(100vh-76px)] overflow-y-auto";
+
 	return (
 		<div className="min-h-screen bg-transparent overflow-hidden">
 			<Navbar
-				onMenuClick={toggleSidebar}
+				onMenuClick={handleMenuClick}
 				searchQuery={searchQuery}
 				onSearchChange={setSearchQuery}
 			/>
@@ -161,10 +175,10 @@ export default function App(): JSX.Element {
 				<Sidebar
 					onFilesSelected={addFiles}
 					isOpen={isSidebarOpen}
-					toggleSidebar={toggleSidebar}
+					toggleSidebar={handleMenuClick}
 				/>
 
-				<main className="pt-[76px] h-[calc(100vh-76px)] pb-[120px] px-3 sm:px-5 lg:px-6 overflow-hidden">
+				<main className={`pt-[76px] pb-[120px] px-3 sm:px-5 lg:px-6 ${mainScrollClass}`}>
 					<div className="grid lg:grid-cols-[1.4fr_1fr] gap-4 xl:gap-6 h-full">
 						<div className="h-full">
 							<Artwork file={currentFile} />

@@ -19,7 +19,7 @@ export default function Artwork({
 			className={
 				isThumbnail
 					? "flex-none w-12 h-12 mr-3 overflow-hidden rounded-md bg-[#1f1f1f]"
-					: "h-full max-h-[640px] flex items-center justify-center px-4"
+					: "h-full flex items-center justify-center px-4"
 			}
 		>
 			{file?.image ? (
