@@ -46,7 +46,7 @@ export default function App(): JSX.Element {
 		const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
 			const desktop = "matches" in e ? e.matches : e.matches;
 			setIsDesktop(desktop);
-			if (desktop) setIsSidebarOpen(true);
+			setIsSidebarOpen(desktop);
 		};
 		handleChange(mq);
 		mq.addEventListener("change", handleChange as EventListener);
@@ -151,7 +151,7 @@ export default function App(): JSX.Element {
 	]);
 
 	return (
-		<div className="min-h-dvh bg-transparent">
+		<div className="min-h-screen bg-transparent overflow-hidden">
 			<Navbar
 				onMenuClick={toggleSidebar}
 				searchQuery={searchQuery}
@@ -164,15 +164,19 @@ export default function App(): JSX.Element {
 					toggleSidebar={toggleSidebar}
 				/>
 
-				<main className="pt-[76px] pb-[140px] px-3 sm:px-5 lg:px-6">
-					<div className="grid lg:grid-cols-[1.4fr_1fr] gap-4 xl:gap-6">
-						<Artwork file={currentFile} />
-						<Playlist
-							files={filteredFiles}
-							file={currentFile}
-							onFileSelect={selectFile}
-							emptyMessage={emptyMessage}
-						/>
+				<main className="pt-[76px] h-[calc(100vh-76px)] pb-[120px] px-3 sm:px-5 lg:px-6 overflow-hidden">
+					<div className="grid lg:grid-cols-[1.4fr_1fr] gap-4 xl:gap-6 h-full">
+						<div className="h-full">
+							<Artwork file={currentFile} />
+						</div>
+						<div className="h-full">
+							<Playlist
+								files={filteredFiles}
+								file={currentFile}
+								onFileSelect={selectFile}
+								emptyMessage={emptyMessage}
+							/>
+						</div>
 					</div>
 				</main>
 			</div>

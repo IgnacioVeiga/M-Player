@@ -12,14 +12,14 @@ export default function Artwork({
 	const isThumbnail = size === "thumbnail";
 	const imageClasses = isThumbnail
 		? "h-full w-full object-cover"
-		: "w-full h-full object-cover rounded-2xl shadow-2xl";
+		: "w-full h-full object-contain rounded-2xl shadow-2xl bg-[#0f0f0f]";
 
 	return (
 		<div
 			className={
 				isThumbnail
 					? "flex-none w-12 h-12 mr-3 overflow-hidden rounded-md bg-[#1f1f1f]"
-					: "h-[calc(100vh-200px)] max-h-[620px] mt-4 flex items-center justify-center px-4"
+					: "h-full max-h-[640px] flex items-center justify-center px-4"
 			}
 		>
 			{file?.image ? (
