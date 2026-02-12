@@ -19,20 +19,22 @@ export default function Artwork({
 			className={
 				isThumbnail
 					? "flex-none w-12 h-12 mr-3 overflow-hidden rounded-md bg-[#1f1f1f]"
-					: "h-full flex items-center justify-center px-2 lg:px-4"
+					: "relative flex items-center justify-center px-2 lg:px-4 h-full"
 			}
 		>
-			{file?.image ? (
-				<img
-					src={file.image}
-					alt="Album Art"
-					className={imageClasses}
-				/>
-			) : (
-				<div className="h-full w-full max-w-[620px] aspect-square flex items-center justify-center text-center text-sm text-white bg-gradient-to-br from-[#2a2a2a] to-[#111] rounded-2xl border border-[#2f2f2f]">
-					No Image
-				</div>
-			)}
+			<div className="w-full max-w-[780px] h-[min(70vh,640px)] sm:h-[min(75vh,720px)] flex items-center justify-center">
+				{file?.image ? (
+					<img
+						src={file.image}
+						alt="Album Art"
+						className={imageClasses}
+					/>
+				) : (
+					<div className="w-full h-full aspect-square flex items-center justify-center text-center text-sm text-white bg-gradient-to-br from-[#2a2a2a] to-[#111] rounded-2xl border border-[#2f2f2f]">
+						No Image
+					</div>
+				)}
+			</div>
 		</div>
 	);
 }

@@ -155,6 +155,7 @@ export default function App(): JSX.Element {
 	]);
 
 	const sidebarOpen = isDesktop ? isSidebarPinned : isMobileSidebarOpen;
+	const sidebarWidth = isDesktop && sidebarOpen ? 260 : 0;
 
 	const handleMenuClick = () => {
 		if (isDesktop) setIsSidebarPinned((prev) => !prev);
@@ -172,11 +173,19 @@ export default function App(): JSX.Element {
 				searchQuery={searchQuery}
 				onSearchChange={setSearchQuery}
 			/>
-			<div className="lg:grid lg:grid-cols-[260px_1fr]">
+			<div
+				className="lg:grid"
+				style={
+					isDesktop
+						? { gridTemplateColumns: `${sidebarWidth}px 1fr`, transition: "grid-template-columns 200ms ease" }
+						: undefined
+				}
+			>
 				<Sidebar
 					onFilesSelected={addFiles}
 					isOpen={sidebarOpen}
 					toggleSidebar={handleMenuClick}
+					width={sidebarWidth}
 				/>
 
 				<main className={`pt-[76px] pb-[120px] px-3 sm:px-5 lg:px-6 ${mainScrollClass}`}>

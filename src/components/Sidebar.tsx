@@ -1,7 +1,12 @@
 import { SidebarProps } from "@/types";
 import { JSX } from "react/jsx-runtime";
 
-export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: SidebarProps): JSX.Element {
+export default function Sidebar({
+	isOpen,
+	toggleSidebar,
+	onFilesSelected,
+	width,
+}: SidebarProps & { width?: number }): JSX.Element {
 	const handleSelectFiles = async () => {
 		const selectedFiles = await window.ipcRenderer.invoke("select-audio-files");
 		if (selectedFiles) {
@@ -18,6 +23,7 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: Side
 	];
 
 	const sidebarTransform = isOpen ? "translate-x-0" : "-translate-x-full";
+	const isVisible = isOpen && (width === undefined || width > 0);
 
 	return (
 		<>
@@ -26,6 +32,11 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: Side
 				className={`glass-panel w-[260px] transition-transform duration-200 ease-in-out z-20 border-r border-[#2a2a2a]
 					fixed top-[76px] h-[calc(100vh-76px)] lg:sticky lg:top-[76px] lg:shadow-none
 					${sidebarTransform} lg:${sidebarTransform}`}
+				style={{
+					width: width ?? 260,
+					visibility: isVisible ? "visible" : "hidden",
+					pointerEvents: isVisible ? "auto" : "none",
+				}}
 			>
 				<div className="px-4 pt-6 pb-4 flex flex-col gap-2 h-full overflow-hidden">
 					<div className="text-xs uppercase tracking-[0.08em] text-neutral-400 px-2">
