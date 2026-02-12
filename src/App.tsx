@@ -10,6 +10,7 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 export default function App(): JSX.Element {
 	// UI-only state (not tied to audio)
 	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+	const [isDesktop, setIsDesktop] = useState<boolean>(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 
 	// Shared player state + actions live in a dedicated hook.
@@ -38,6 +39,19 @@ export default function App(): JSX.Element {
 
 	const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
 	const normalizedQuery = searchQuery.trim().toLowerCase();
+
+	// Keep sidebar pinned on desktop, toggle on mobile.
+	useEffect(() => {
+		const mq = window.matchMedia("(min-width: 1024px)");
+		const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+			const desktop = "matches" in e ? e.matches : e.matches;
+			setIsDesktop(desktop);
+			if (desktop) setIsSidebarOpen(true);
+		};
+		handleChange(mq);
+		mq.addEventListener("change", handleChange as EventListener);
+		return () => mq.removeEventListener("change", handleChange as EventListener);
+	}, []);
 
 	// Keep filtering logic in App so Playlist remains a pure rendering component.
 	const filteredFiles = useMemo(() => {
@@ -143,23 +157,25 @@ export default function App(): JSX.Element {
 				searchQuery={searchQuery}
 				onSearchChange={setSearchQuery}
 			/>
-			<Sidebar
-				onFilesSelected={addFiles}
-				isOpen={isSidebarOpen}
-				toggleSidebar={toggleSidebar}
-			/>
+			<div className="lg:grid lg:grid-cols-[260px_1fr]">
+				<Sidebar
+					onFilesSelected={addFiles}
+					isOpen={isSidebarOpen}
+					toggleSidebar={toggleSidebar}
+				/>
 
-			<main className="pt-[76px] pb-[140px] px-3 sm:px-5 lg:px-6">
-				<div className="grid lg:grid-cols-[1.4fr_1fr] gap-4 xl:gap-6">
-					<Artwork file={currentFile} />
-					<Playlist
-						files={filteredFiles}
-						file={currentFile}
-						onFileSelect={selectFile}
-						emptyMessage={emptyMessage}
-					/>
-				</div>
-			</main>
+				<main className="pt-[76px] pb-[140px] px-3 sm:px-5 lg:px-6">
+					<div className="grid lg:grid-cols-[1.4fr_1fr] gap-4 xl:gap-6">
+						<Artwork file={currentFile} />
+						<Playlist
+							files={filteredFiles}
+							file={currentFile}
+							onFileSelect={selectFile}
+							emptyMessage={emptyMessage}
+						/>
+					</div>
+				</main>
+			</div>
 
 			<Controls
 				file={currentFile}

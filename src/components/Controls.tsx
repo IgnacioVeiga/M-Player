@@ -50,29 +50,29 @@ export default function Controls({
 			/>
 			<footer className="flex items-center justify-between px-4 py-3">
 				{/* Left controls */}
-				<div className="flex items-center gap-1 sm:gap-3">
+				<div className="flex items-center gap-1 sm:gap-2">
 					<button
 						disabled={!hasTrack}
 						onClick={onPrevious}
-						className="text-white cursor-pointer text-2xl hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+						className="flex items-center justify-center w-10 h-10 rounded-full text-white cursor-pointer hover:bg-[#1f1f1f] transition disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						<span className="material-icons">skip_previous</span>
 					</button>
 					<button
 						disabled={!hasTrack}
 						onClick={onPlayPause}
-						className="text-white cursor-pointer text-[32px] hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+						className="flex items-center justify-center w-12 h-12 rounded-full bg-white text-black cursor-pointer hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						{isPlaying ? (
-							<span className="material-icons">pause</span>
+							<span className="material-icons text-[30px] leading-none">pause</span>
 						) : (
-							<span className="material-icons">play_arrow</span>
+							<span className="material-icons text-[30px] leading-none">play_arrow</span>
 						)}
 					</button>
 					<button
 						disabled={!hasTrack}
 						onClick={onNext}
-						className="text-white cursor-pointer text-2xl hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+						className="flex items-center justify-center w-10 h-10 rounded-full text-white cursor-pointer hover:bg-[#1f1f1f] transition disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						<span className="material-icons">skip_next</span>
 					</button>

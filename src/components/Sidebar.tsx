@@ -21,9 +21,10 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: Side
 		<>
 			{/* Sidebar */}
 			<div
-				className={`fixed top-0 h-full w-[260px] glass-panel transform transition-transform duration-200 ease-in-out z-20 lg:translate-x-0 lg:static ${
-					isOpen ? "translate-x-0" : "-translate-x-full"
-				}`}
+				className={`glass-panel w-[260px] transition-transform duration-200 ease-in-out z-20
+					fixed top-0 h-full lg:h-[calc(100vh-76px)] lg:mt-[76px] lg:sticky lg:top-[76px] lg:shadow-none
+					${isOpen ? "translate-x-0" : "-translate-x-full"}
+					lg:translate-x-0`}
 			>
 				<div className="px-4 pt-20 pb-4 flex flex-col gap-2 h-full">
 					<div className="text-xs uppercase tracking-[0.08em] text-neutral-400 px-2">
@@ -60,7 +61,7 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: Side
 
 			{/* Overlay */}
 			<div
-				className={`fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] z-9 ${
+				className={`fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] z-10 lg:hidden ${
 					isOpen ? "block" : "hidden"
 				}`}
 				onClick={toggleSidebar}
