@@ -42,7 +42,7 @@ export default function Controls({
 	const shuffleClass = shuffleEnabled ? "text-primary" : "text-white";
 
 	return (
-		<div className="fixed bottom-0 left-0 right-0 glass-panel border-t border-[#2f2f2f]">
+		<div className="fixed bottom-0 left-0 right-0 glass-panel border-t border-border">
 			<ProgressBar
 				progress={progress}
 				duration={duration}

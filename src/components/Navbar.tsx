@@ -11,7 +11,7 @@ export default function Navbar({
 			<div className="flex items-center gap-4 px-4 py-3">
 				<button
 					onClick={onMenuClick}
-					className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-[#2b2b2b] transition active:scale-95 text-white"
+					className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-accent transition active:scale-95 text-white"
 					title="Open navigation"
 				>
 					<span className="material-icons-outlined text-2xl">menu</span>
@@ -24,7 +24,7 @@ export default function Navbar({
 				</div>
 
 				<div className="flex-1 flex justify-center">
-					<div className="flex items-center w-full max-w-2xl bg-[#1e1e1e] border border-[#2f2f2f] rounded-full px-4 py-2 focus-within:border-primary focus-within:shadow-[0_0_0_1px_var(--color-primary)] transition">
+					<div className="flex items-center w-full max-w-2xl bg-[#1e1e1e] border border-border rounded-full px-4 py-2 focus-within:border-primary focus-within:shadow-[0_0_0_1px_var(--color-primary)] transition">
 						<span className="material-icons text-[#888] mr-2 text-lg">search</span>
 						<input
 							type="text"
@@ -40,13 +40,13 @@ export default function Navbar({
 				</div>
 
 				<div className="flex items-center gap-2">
-					<button className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-[#2b2b2b] transition text-white">
+					<button className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-accent transition text-white">
 						<span className="material-icons-outlined text-xl">cast</span>
 					</button>
-					<button className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-[#2b2b2b] transition text-white">
+					<button className="hidden md:flex items-center justify-center w-10 h-10 rounded-full hover:bg-accent transition text-white">
 						<span className="material-icons-outlined text-xl">settings</span>
 					</button>
-					<button className="flex items-center justify-center w-10 h-10 rounded-full bg-gradient-to-br from-[#ff4d6d] to-[#ff0033] text-white font-semibold">
+					<button className="flex items-center justify-center w-10 h-10 rounded-full bg-linear-to-br from-[#ff4d6d] to-primary text-white font-semibold">
 						N
 					</button>
 				</div>

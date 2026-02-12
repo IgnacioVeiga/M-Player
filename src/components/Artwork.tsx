@@ -22,7 +22,7 @@ export default function Artwork({
 					: "relative flex items-center justify-center px-2 lg:px-4 h-full"
 			}
 		>
-			<div className="w-full max-w-[960px] flex items-center justify-center">
+			<div className="w-full max-w-240 flex items-center justify-center">
 				{file?.image ? (
 					<img
 						src={file.image}
@@ -30,7 +30,7 @@ export default function Artwork({
 						className={imageClasses}
 					/>
 				) : (
-					<div className="w-full h-full aspect-square flex items-center justify-center text-center text-sm text-white bg-gradient-to-br from-[#2a2a2a] to-[#111] rounded-2xl border border-[#2f2f2f]">
+					<div className="w-full h-full aspect-square flex items-center justify-center text-center text-sm text-white bg-linear-to-br from-[#2a2a2a] to-[#111] rounded-2xl border border-border">
 						No Image
 					</div>
 				)}

@@ -40,15 +40,12 @@ export default function App(): JSX.Element {
 
 	useEffect(() => {
 		const mq = window.matchMedia("(min-width: 1024px)");
-		const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
-			// Auto-close drawer when switching to mobile to avoid overlay stuck.
-			if (!("matches" in e ? e.matches : e.matches)) {
-				setIsSidebarOpen(false);
-			}
+		if (!mq.matches) setIsSidebarOpen(false);
+		const handleChange = (event: MediaQueryListEvent) => {
+			if (!event.matches) setIsSidebarOpen(false);
 		};
-		handleChange(mq);
-		mq.addEventListener("change", handleChange as EventListener);
-		return () => mq.removeEventListener("change", handleChange as EventListener);
+		mq.addEventListener("change", handleChange);
+		return () => mq.removeEventListener("change", handleChange);
 	}, []);
 
 	// Keep filtering logic in App so Playlist remains a pure rendering component.
@@ -167,12 +164,12 @@ export default function App(): JSX.Element {
 				toggleSidebar={handleMenuClick}
 			/>
 
-			<main className={`pt-[76px] pb-[120px] px-3 sm:px-5 lg:px-6 ${mainScrollClass}`}>
-				<div className="grid lg:grid-cols-[minmax(360px,1fr)_minmax(360px,1fr)] gap-4 xl:gap-6 max-w-[1600px] mx-auto">
+			<main className={`pt-19 pb-30 px-3 sm:px-5 lg:px-6 ${mainScrollClass}`}>
+				<div className="grid lg:grid-cols-[minmax(360px,1fr)_minmax(360px,1fr)] gap-4 xl:gap-6 max-w-400 mx-auto">
 					<div className="flex items-start justify-center">
 						<Artwork file={currentFile} />
 					</div>
-					<div className="min-h-[360px]">
+					<div className="min-h-90">
 						<Playlist
 							files={filteredFiles}
 							file={currentFile}

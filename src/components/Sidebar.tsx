@@ -28,7 +28,7 @@ export default function Sidebar({
 			{/* Sidebar */}
 			<div
 				className={`glass-panel transition-transform duration-200 ease-in-out z-40 border-r border-[#2a2a2a]
-					fixed top-[64px] bottom-0 w-[280px] lg:w-[280px] lg:shadow-none
+					fixed top-16 bottom-0 w-70 lg:w-70 lg:shadow-none
 					${sidebarTransform}`}
 			>
 				<div className="px-4 pt-6 pb-4 flex flex-col gap-2 h-full overflow-hidden">
@@ -56,7 +56,7 @@ export default function Sidebar({
 							Your Library
 						</div>
 						<div className="flex flex-col gap-2">
-							<div className="rounded-lg bg-[#1f1f1f] border border-[#2f2f2f] px-3 py-2 text-sm text-neutral-300">
+							<div className="rounded-lg bg-[#1f1f1f] border border-border px-3 py-2 text-sm text-neutral-300">
 								Add folders to build your library and keep them in sync.
 							</div>
 						</div>
