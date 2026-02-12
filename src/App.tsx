@@ -9,9 +9,7 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 export default function App(): JSX.Element {
 	// UI-only state (not tied to audio)
-	const [isSidebarPinned, setIsSidebarPinned] = useState<boolean>(true);
-	const [isDesktop, setIsDesktop] = useState<boolean>(false);
-	const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
+	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 
 	// Shared player state + actions live in a dedicated hook.
@@ -40,15 +38,12 @@ export default function App(): JSX.Element {
 
 	const normalizedQuery = searchQuery.trim().toLowerCase();
 
-	// Keep sidebar pinned on desktop, toggle on mobile.
 	useEffect(() => {
 		const mq = window.matchMedia("(min-width: 1024px)");
 		const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
-			const desktop = "matches" in e ? e.matches : e.matches;
-			setIsDesktop(desktop);
-			if (!desktop) {
-				// close mobile drawer when leaving desktop
-				setIsMobileSidebarOpen(false);
+			// Auto-close drawer when switching to mobile to avoid overlay stuck.
+			if (!("matches" in e ? e.matches : e.matches)) {
+				setIsSidebarOpen(false);
 			}
 		};
 		handleChange(mq);
@@ -153,17 +148,11 @@ export default function App(): JSX.Element {
 		volume,
 	]);
 
-	const sidebarOpen = isDesktop ? isSidebarPinned : isMobileSidebarOpen;
-	const sidebarWidth = isDesktop && sidebarOpen ? 260 : 0;
-
 	const handleMenuClick = () => {
-		if (isDesktop) setIsSidebarPinned((prev) => !prev);
-		else setIsMobileSidebarOpen((prev) => !prev);
+		setIsSidebarOpen((prev) => !prev);
 	};
 
-	const mainScrollClass = isDesktop
-		? "h-[calc(100vh-76px)] overflow-hidden"
-		: "min-h-[calc(100vh-76px)] overflow-y-auto";
+	const mainScrollClass = "min-h-[calc(100vh-76px)] overflow-y-auto";
 
 	return (
 		<div className="min-h-screen bg-transparent overflow-hidden">
@@ -172,38 +161,27 @@ export default function App(): JSX.Element {
 				searchQuery={searchQuery}
 				onSearchChange={setSearchQuery}
 			/>
-			<div
-				className="lg:grid"
-				style={
-					isDesktop
-						? { gridTemplateColumns: `${sidebarWidth}px 1fr`, transition: "grid-template-columns 200ms ease" }
-						: undefined
-				}
-			>
-				<Sidebar
-					onFilesSelected={addFiles}
-					isOpen={sidebarOpen}
-					toggleSidebar={handleMenuClick}
-					width={sidebarWidth}
-					isDesktop={isDesktop}
-				/>
+			<Sidebar
+				onFilesSelected={addFiles}
+				isOpen={isSidebarOpen}
+				toggleSidebar={handleMenuClick}
+			/>
 
-				<main className={`pt-[76px] pb-[120px] px-3 sm:px-5 lg:px-6 ${mainScrollClass}`}>
-					<div className="grid lg:grid-cols-[minmax(340px,1.2fr)_minmax(340px,1fr)] gap-4 xl:gap-6 h-full">
-						<div className="h-full flex items-start justify-center">
-							<Artwork file={currentFile} />
-						</div>
-						<div className="h-full">
-							<Playlist
-								files={filteredFiles}
-								file={currentFile}
-								onFileSelect={selectFile}
-								emptyMessage={emptyMessage}
-							/>
-						</div>
+			<main className={`pt-[76px] pb-[120px] px-3 sm:px-5 lg:px-6 ${mainScrollClass}`}>
+				<div className="grid lg:grid-cols-[minmax(360px,1fr)_minmax(360px,1fr)] gap-4 xl:gap-6 max-w-[1600px] mx-auto">
+					<div className="flex items-start justify-center">
+						<Artwork file={currentFile} />
 					</div>
-				</main>
-			</div>
+					<div className="min-h-[360px]">
+						<Playlist
+							files={filteredFiles}
+							file={currentFile}
+							onFileSelect={selectFile}
+							emptyMessage={emptyMessage}
+						/>
+					</div>
+				</div>
+			</main>
 
 			<Controls
 				file={currentFile}
