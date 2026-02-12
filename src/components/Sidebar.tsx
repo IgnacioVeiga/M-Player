@@ -73,7 +73,7 @@ export default function Sidebar({
 
 			{/* Overlay */}
 			<div
-				className={`fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.5)] z-10 lg:hidden ${
+				className={`fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.45)] z-20 ${
 					isOpen ? "block" : "hidden"
 				}`}
 				onClick={toggleSidebar}

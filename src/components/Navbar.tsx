@@ -7,7 +7,7 @@ export default function Navbar({
 	onSearchChange,
 }: NavbarProps): JSX.Element {
 	return (
-		<header className="fixed top-0 left-0 right-0 z-30 glass-panel">
+		<header className="fixed top-0 left-0 right-0 z-50 glass-panel">
 			<div className="flex items-center gap-4 px-4 py-3">
 				<button
 					onClick={onMenuClick}

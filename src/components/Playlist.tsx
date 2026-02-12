@@ -39,7 +39,7 @@ export default function Playlist({
 	};
 
 	return (
-		<div className="flex flex-col glass-panel rounded-2xl border border-[#2f2f2f] h-auto lg:h-[calc(100vh-220px)] max-h-[calc(100vh-220px)]">
+		<div className="flex flex-col glass-panel rounded-2xl border border-[#2f2f2f] h-auto lg:h-[calc(100vh-220px)] max-h-[calc(100vh-220px)] min-h-[360px]">
 			<div className="flex justify-around p-2 border-b border-[#2f2f2f] sticky top-0 bg-[#181818]/90 backdrop-blur-md rounded-t-2xl z-10">
 				{Object.values(Tab).map((tab) => (
 					<button
