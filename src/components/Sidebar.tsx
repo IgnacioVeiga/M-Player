@@ -23,7 +23,7 @@ export default function Sidebar({ isOpen, toggleSidebar, onFilesSelected }: Side
 		<>
 			{/* Sidebar */}
 			<div
-				className={`glass-panel w-[260px] transition-transform duration-200 ease-in-out z-20
+				className={`glass-panel w-[260px] transition-transform duration-200 ease-in-out z-20 border-r border-[#2a2a2a]
 					fixed top-[76px] h-[calc(100vh-76px)] lg:sticky lg:top-[76px] lg:shadow-none
 					${sidebarTransform} lg:${sidebarTransform}`}
 			>

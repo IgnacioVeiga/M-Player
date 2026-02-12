@@ -9,9 +9,9 @@ import useAudioPlayer from "@/hooks/useAudioPlayer";
 
 export default function App(): JSX.Element {
 	// UI-only state (not tied to audio)
-	const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 	const [isSidebarPinned, setIsSidebarPinned] = useState<boolean>(true);
 	const [isDesktop, setIsDesktop] = useState<boolean>(false);
+	const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState<boolean>(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 
 	// Shared player state + actions live in a dedicated hook.
@@ -47,12 +47,15 @@ export default function App(): JSX.Element {
 		const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
 			const desktop = "matches" in e ? e.matches : e.matches;
 			setIsDesktop(desktop);
-			setIsSidebarOpen(desktop ? isSidebarPinned : false);
+			if (!desktop) {
+				// close mobile drawer when leaving desktop
+				setIsMobileSidebarOpen(false);
+			}
 		};
 		handleChange(mq);
 		mq.addEventListener("change", handleChange as EventListener);
 		return () => mq.removeEventListener("change", handleChange as EventListener);
-	}, [isSidebarPinned]);
+	}, []);
 
 	// Keep filtering logic in App so Playlist remains a pure rendering component.
 	const filteredFiles = useMemo(() => {
@@ -151,13 +154,11 @@ export default function App(): JSX.Element {
 		volume,
 	]);
 
+	const sidebarOpen = isDesktop ? isSidebarPinned : isMobileSidebarOpen;
+
 	const handleMenuClick = () => {
-		if (isDesktop) {
-			setIsSidebarPinned((prev) => !prev);
-			setIsSidebarOpen((prev) => !prev);
-		} else {
-			setIsSidebarOpen((prev) => !prev);
-		}
+		if (isDesktop) setIsSidebarPinned((prev) => !prev);
+		else setIsMobileSidebarOpen((prev) => !prev);
 	};
 
 	const mainScrollClass = isDesktop
@@ -174,7 +175,7 @@ export default function App(): JSX.Element {
 			<div className="lg:grid lg:grid-cols-[260px_1fr]">
 				<Sidebar
 					onFilesSelected={addFiles}
-					isOpen={isSidebarOpen}
+					isOpen={sidebarOpen}
 					toggleSidebar={handleMenuClick}
 				/>
 
