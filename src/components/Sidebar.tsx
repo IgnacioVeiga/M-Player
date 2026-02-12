@@ -6,8 +6,7 @@ export default function Sidebar({
 	toggleSidebar,
 	onFilesSelected,
 	width,
-	isDesktop,
-}: SidebarProps & { width?: number; isDesktop?: boolean }): JSX.Element {
+}: SidebarProps & { width?: number }): JSX.Element {
 	const handleSelectFiles = async () => {
 		const selectedFiles = await window.ipcRenderer.invoke("select-audio-files");
 		if (selectedFiles) {
@@ -24,15 +23,15 @@ export default function Sidebar({
 	];
 
 	const sidebarTransform = isOpen ? "translate-x-0" : "-translate-x-full";
-	const isVisible = isOpen || isDesktop;
+	const isVisible = isOpen && (width === undefined || width > 0);
 
 	return (
 		<>
 			{/* Sidebar */}
 			<div
-				className={`glass-panel transition-transform duration-200 ease-in-out z-20 border-r border-[#2a2a2a]
+				className={`glass-panel w-[260px] transition-transform duration-200 ease-in-out z-20 border-r border-[#2a2a2a]
 					fixed top-[76px] h-[calc(100vh-76px)] lg:sticky lg:top-[76px] lg:shadow-none
-					${sidebarTransform} lg:translate-x-0`}
+					${sidebarTransform} lg:${sidebarTransform}`}
 				style={{
 					width: width ?? 260,
 					visibility: isVisible ? "visible" : "hidden",
