@@ -189,8 +189,8 @@ export default function App(): JSX.Element {
 				/>
 
 				<main className={`pt-[76px] pb-[120px] px-3 sm:px-5 lg:px-6 ${mainScrollClass}`}>
-					<div className="grid lg:grid-cols-[1.4fr_1fr] gap-4 xl:gap-6 h-full">
-						<div className="h-full">
+					<div className="grid lg:grid-cols-[minmax(340px,1.2fr)_minmax(340px,1fr)] gap-4 xl:gap-6 h-full">
+						<div className="h-full flex items-start justify-center">
 							<Artwork file={currentFile} />
 						</div>
 						<div className="h-full">

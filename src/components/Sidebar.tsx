@@ -32,7 +32,7 @@ export default function Sidebar({
 			<div
 				className={`glass-panel transition-transform duration-200 ease-in-out z-30 border-r border-[#2a2a2a]
 					fixed top-[64px] bottom-0 h-[calc(100vh-64px)]
-					lg:sticky lg:top-[64px] lg:h-[calc(100vh-64px)] lg:shadow-none
+					lg:fixed lg:top-[64px] lg:bottom-0 lg:shadow-none
 					${sidebarTransform}`}
 				style={{
 					width: isDesktop ? width ?? 260 : 280,
