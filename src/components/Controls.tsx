@@ -38,20 +38,19 @@ export default function Controls({
 			? "volume_down"
 			: "volume_up";
 	const repeatIcon = repeatMode === "one" ? "repeat_one" : "repeat";
-	const repeatClass =
-		repeatMode === "off" ? "text-white" : "text-primary";
+	const repeatClass = repeatMode === "off" ? "text-white" : "text-primary";
 	const shuffleClass = shuffleEnabled ? "text-primary" : "text-white";
 
 	return (
-		<div className="fixed bottom-0 w-full">
+		<div className="fixed bottom-0 left-0 right-0 glass-panel border-t border-[#2f2f2f]">
 			<ProgressBar
 				progress={progress}
 				duration={duration}
 				onProgressChange={onProgressChange}
 			/>
-			<footer className="flex items-center justify-between bg-[#121212] p-3">
+			<footer className="flex items-center justify-between px-4 py-3">
 				{/* Left controls */}
-				<div className="flex items-center gap-2">
+				<div className="flex items-center gap-1 sm:gap-3">
 					<button
 						disabled={!hasTrack}
 						onClick={onPrevious}
@@ -62,7 +61,7 @@ export default function Controls({
 					<button
 						disabled={!hasTrack}
 						onClick={onPlayPause}
-						className="text-white cursor-pointer text-2xl hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
+						className="text-white cursor-pointer text-[32px] hover:scale-105 transition disabled:opacity-50 disabled:cursor-not-allowed"
 					>
 						{isPlaying ? (
 							<span className="material-icons">pause</span>
@@ -78,20 +77,22 @@ export default function Controls({
 						<span className="material-icons">skip_next</span>
 					</button>
 
-					<span className="text-sm text-neutral-400">
+					<span className="hidden md:inline text-sm text-neutral-400 ml-2">
 						{formatTime(progress)} / {formatTime(duration)}
 					</span>
 				</div>
 
 				{/* Metadata */}
-				<div className="flex items-center gap-3">
+				<div className="flex items-center gap-2 sm:gap-3 min-w-0">
 					<Artwork
 						file={file}
 						size="thumbnail"
 					/>
-					<div className="flex flex-col my-4">
-						<span>{file?.title || "Unknown Title"}</span>
-						<span className="text-neutral-400 text-sm hover:underline cursor-pointer">
+					<div className="flex flex-col my-4 min-w-0">
+						<span className="text-sm font-medium truncate">
+							{file?.title || "Unknown Title"}
+						</span>
+						<span className="text-neutral-400 text-xs sm:text-sm hover:underline cursor-pointer truncate">
 							{file?.artist || "Unknown Artist"} -{" "}
 							{file?.album || "Unknown Album"}
 						</span>
@@ -99,7 +100,7 @@ export default function Controls({
 				</div>
 
 				{/* Right controls */}
-				<div className="flex items-center gap-2">
+				<div className="flex items-center gap-2 sm:gap-3">
 					<button
 						disabled={!hasTrack}
 						onClick={onToggleMute}

@@ -137,7 +137,7 @@ export default function App(): JSX.Element {
 	]);
 
 	return (
-		<div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
+		<div className="min-h-dvh bg-transparent">
 			<Navbar
 				onMenuClick={toggleSidebar}
 				searchQuery={searchQuery}
@@ -149,15 +149,17 @@ export default function App(): JSX.Element {
 				toggleSidebar={toggleSidebar}
 			/>
 
-			<div className="grid lg:grid-cols-[2fr_1.5fr] gap-4 sm:grid-cols-[1fr] sm:gap-0">
-				<Artwork file={currentFile} />
-				<Playlist
-					files={filteredFiles}
-					file={currentFile}
-					onFileSelect={selectFile}
-					emptyMessage={emptyMessage}
-				/>
-			</div>
+			<main className="pt-[76px] pb-[140px] px-3 sm:px-5 lg:px-6">
+				<div className="grid lg:grid-cols-[1.4fr_1fr] gap-4 xl:gap-6">
+					<Artwork file={currentFile} />
+					<Playlist
+						files={filteredFiles}
+						file={currentFile}
+						onFileSelect={selectFile}
+						emptyMessage={emptyMessage}
+					/>
+				</div>
+			</main>
 
 			<Controls
 				file={currentFile}

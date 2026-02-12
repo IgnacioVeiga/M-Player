@@ -1,22 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #FF0033;
-  --color-secondary: #181818;
-  --color-accent: #535353;
+  --color-primary: #ff0033;
+  --color-secondary: #0f0f0f;
+  --color-accent: #2b2b2b;
+  --color-surface: #181818;
+  --color-border: #2f2f2f;
 
-  --font-sans: ui-sans-serif, system-ui;
+  --font-sans: "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at 20% 20%, rgba(255, 0, 51, 0.18), transparent 35%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08), transparent 32%),
+    radial-gradient(circle at 50% 80%, rgba(255, 0, 51, 0.12), transparent 36%),
+    var(--color-secondary);
+}
+
+.glass-panel {
+  background: rgba(24, 24, 24, 0.9);
+  border: 1px solid var(--color-border);
+  backdrop-filter: blur(12px);
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #555;
-  border-radius: 8px;
+  background: #444;
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: #555;
 }

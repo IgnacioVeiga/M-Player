@@ -11,15 +11,15 @@ export default function Artwork({
 	// Default to "large" if size is not provided
 	const isThumbnail = size === "thumbnail";
 	const imageClasses = isThumbnail
-		? "h-full"
-		: "max-w-[80vw] max-h-[90%] rounded-2xl";
+		? "h-full w-full object-cover"
+		: "w-full h-full object-cover rounded-2xl shadow-2xl";
 
 	return (
 		<div
 			className={
 				isThumbnail
-					? "flex-none w-12 h-12 mr-3"
-					: "h-[calc(100vh-160px)] mt-16 flex items-center justify-center"
+					? "flex-none w-12 h-12 mr-3 overflow-hidden rounded-md bg-[#1f1f1f]"
+					: "h-[calc(100vh-200px)] max-h-[620px] mt-4 flex items-center justify-center px-4"
 			}
 		>
 			{file?.image ? (
@@ -29,7 +29,7 @@ export default function Artwork({
 					className={imageClasses}
 				/>
 			) : (
-				<div className="h-full w-auto aspect-square flex items-center justify-center text-center text-xs text-white bg-neutral-700 rounded-2xl">
+				<div className="h-full w-full max-w-[520px] aspect-square flex items-center justify-center text-center text-sm text-white bg-gradient-to-br from-[#2a2a2a] to-[#111] rounded-2xl border border-[#2f2f2f]">
 					No Image
 				</div>
 			)}
